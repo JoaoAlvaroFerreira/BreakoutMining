@@ -80,4 +80,8 @@ public class Personality: MonoBehaviour{
         
     }
 
+    float CalculateSatisfaction(){
+        return 1;
+    }
+
 }
