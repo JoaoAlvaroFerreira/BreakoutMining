@@ -6,15 +6,16 @@ public class Personality: MonoBehaviour{
 
     public GameObject paddle;
     public GameObject ball;
-    private float APM = 300f; //actions per minute
-    private float reaction_time = 0.05f; //difference between eye and hand
+    protected float APM = 400f; //actions per minute
+    protected float reaction_time = 0.02f; //difference between eye and hand
 
-    private float paddle_safety_distance = 1f; //how close to the edge of the paddle 
+    protected float paddle_safety_distance = 1f; //how close to the edge of the paddle 
     //this player feels comfortable playing with, less means more safe
 
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("test");
         if(paddle == null)
         paddle = GameObject.Find("Paddle");
 
@@ -56,12 +57,12 @@ public class Personality: MonoBehaviour{
         }
     }
 
-    //TWO FUNCTIONS BELOW NEED TO BE DEVELOPED AND WILL BE ABSTRACTED INTO MULTIPLE OTHER PERSONALITIES
+    //TWO FUNCTIONS WILL BE ABSTRACTED INTO MULTIPLE OTHER PERSONALITIES
     void GenerateValues(){
         //Generate different paddle_safety, APM and reaction time values within specific ranges dependent on specific personality type
     }
 
-    int MoveHeuristic(){
+    public virtual int MoveHeuristic(){
         //VERY BASIC TEST VERSION, DO BETTER LATER
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;

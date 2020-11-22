@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> bricks;
 
     public GameObject personality; //TEMP, will be personality list later
+    public GameObject personalityNewbie;
 
     private float brickHeight;
 
@@ -82,9 +83,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void SummonPlayer(){
-        Instantiate(personality);
-        personality.GetComponent<Personality>().ball = this.ball;
-        personality.GetComponent<Personality>().paddle = this.paddle;
+        Instantiate(personalityNewbie);
     }
 
     private void ManagerTuning(){
