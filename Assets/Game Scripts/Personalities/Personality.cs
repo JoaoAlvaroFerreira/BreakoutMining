@@ -15,7 +15,6 @@ public class Personality: MonoBehaviour{
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("test");
         if(paddle == null)
         paddle = GameObject.Find("Paddle");
 
