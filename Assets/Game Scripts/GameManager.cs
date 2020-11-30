@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
         //write logs
         //restart scene with new player, for now just restart
 
-        //float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction(win, time);
+        float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction();
         PlayerList[round-1].SetActive(false);
 
         string strFilePath = @"./data.csv";
