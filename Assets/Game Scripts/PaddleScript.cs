@@ -8,12 +8,18 @@ public class PaddleScript : MonoBehaviour
     public float PaddleSpeed;
     private Rigidbody2D rb;
     private Vector2 spriteSize;
+
+    void Awake(){
+        
+         
+    }
     void Start()
     {
-
         rb = GetComponent<Rigidbody2D>();
         spriteSize = GetComponent<SpriteRenderer>().size;
+        
         Debug.Log("Paddle Size: "+ spriteSize.x);
+     
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -37,7 +43,13 @@ public class PaddleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
+        if(transform.position.x > 8){
+            transform.position = new Vector3(8,transform.position.y,transform.position.z);
+        }
+          if(transform.position.x < -8){
+            transform.position = new Vector3(-8,transform.position.y,transform.position.z);
+        }
     }
 
     public void MoveRight()

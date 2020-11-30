@@ -16,14 +16,13 @@ public class Competitive : Personality
     max_reaction_time = 0.01f; //difference between eye and hand
     
     min_paddle_safety_distance = 1f;
-    max_paddle_safety_distance = 1.1f;
+    max_paddle_safety_distance = 1.3f;
     GenerateValues();
     
     InvokeRepeating("PaddleMovement", 0, (float)60/APM);
     }
 
     public override int MoveHeuristic(){
-        Debug.Log("competitive heuristic");
         //VERY BASIC TEST VERSION, DO BETTER LATER
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;
