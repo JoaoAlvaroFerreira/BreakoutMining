@@ -51,6 +51,7 @@ public class Competitive : Personality
         
         return (paddle.transform.position.y - ball.transform.position.y)/ball.GetComponent<Rigidbody2D>().velocity.y;
     }
+    
     float calcTrajectory(){
     float dropTime = calcVerticalTime();
 

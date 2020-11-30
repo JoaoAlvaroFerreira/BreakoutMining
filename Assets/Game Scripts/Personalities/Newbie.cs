@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class Newbie : Personality
 {
 
@@ -19,6 +20,7 @@ public class Newbie : Personality
     min_paddle_safety_distance = .5f;
     max_paddle_safety_distance = .8f;
     GenerateValues();
+    
     InvokeRepeating("PaddleMovement", 0, (float)60/APM);
     }
 

@@ -27,6 +27,7 @@ public class PaddleScript : MonoBehaviour
             float percentageSide = 100 - (moreVelocity * 100 / halfLength);
             float angle = (percentageSide * 80 / 100) * Mathf.Deg2Rad;
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
+            
             if (myX > x)
                 rb.velocity = new Vector2(-rb.velocity.magnitude * Mathf.Cos(angle), rb.velocity.magnitude * Mathf.Sin(angle));
             else rb.velocity = new Vector2(rb.velocity.magnitude * Mathf.Cos(angle), rb.velocity.magnitude * Mathf.Sin(angle));

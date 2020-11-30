@@ -11,9 +11,11 @@ public class Personality: MonoBehaviour{
     public float APM = 500f;
     public float minAPM = 200f;
     public float maxAPM = 300f;
+
     public float reaction_time = 0f; //difference between eye and hand
     public float min_reaction_time = 0.02f; //difference between eye and hand
     public float max_reaction_time = 0.03f; //difference between eye and hand
+
     public float paddle_safety_distance = 1f; //how close to the edge of the paddle 
     //this player feels comfortable playing with, less means more safe
     public float min_paddle_safety_distance = .8f;
@@ -56,7 +58,7 @@ public class Personality: MonoBehaviour{
     }
 
     IEnumerator takeAction(){
-        Debug.Log("hallo?");
+        
         int choice = MoveHeuristic();
         
         yield return new WaitForSeconds(reaction_time);
@@ -82,14 +84,10 @@ public class Personality: MonoBehaviour{
         //Generate different paddle_safety, APM and reaction time values 
         //within specific ranges dependent on specific personality type
 
-        APM = 800f;
-        reaction_time = 0f;
-        paddle_safety_distance = 1f;
-        
-        /*
+       
         APM = UnityEngine.Random.Range(minAPM, maxAPM);
         reaction_time = UnityEngine.Random.Range(min_reaction_time, max_reaction_time);
-        paddle_safety_distance = UnityEngine.Random.Range(min_paddle_safety_distance, max_paddle_safety_distance); */
+        paddle_safety_distance = UnityEngine.Random.Range(min_paddle_safety_distance, max_paddle_safety_distance);
         
 
     }

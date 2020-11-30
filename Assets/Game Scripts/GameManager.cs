@@ -27,14 +27,11 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         
-
+ 
         if(round == 0)
         generatePlayerList();
        
-        
-       
-
-        
+          
 
         initGame();
         
@@ -45,6 +42,7 @@ public class GameManager : MonoBehaviour
         PlayerList = new List<GameObject>();
         personalities.Add(personalityCompetitive);
         personalities.Add(personalityNewbie);
+        
         for(int i = 0; i < amountOfPlayersPerRound; i++){
             GameObject player = Instantiate(personalities[i % personalities.Count]);
             PlayerList.Add(player);
@@ -53,6 +51,10 @@ public class GameManager : MonoBehaviour
 
       foreach(GameObject p in PlayerList)
             DontDestroyOnLoad(p);
+
+        //register to csv ()
+        // test
+        // ML AGENTS HEREEEEEEEEEEEEE
         
     }
 
@@ -130,17 +132,20 @@ public class GameManager : MonoBehaviour
         //call Personality, give game data to obtain satisfaction
         //write logs
         //restart scene with new player, for now just restart
-        float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction();
+
+        float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction(win, time);
         PlayerList[round-1].SetActive(false);
+
         string strFilePath = @"./data.csv";
 
         if(round == 1){
         File.WriteAllText(strFilePath,"session id, time, type of personality, amount of bricks,win/lose,satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND
-         File.AppendAllText(strFilePath,Environment.NewLine);}
+        File.AppendAllText(strFilePath,Environment.NewLine);
+        }
         //session id, time, type of personality, amount of bricks,win/lose
        
         
-        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win, (int)satisfaction};
+        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win, (int)satisfaction}; //valores das colunas
 
         StringBuilder sbOutput = new StringBuilder();
         sbOutput.AppendLine(string.Join(",", outputarray));

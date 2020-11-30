@@ -8,7 +8,8 @@ public class GameMaster : MonoBehaviour
     public GameObject Manager;
     void Start()
     {
-        Instantiate(Manager);
+        GameObject a = Instantiate(Manager);
+       //a.GetComponent<GameManager>().ManagerTuning();
     }
 
     // Update is called once per frame
