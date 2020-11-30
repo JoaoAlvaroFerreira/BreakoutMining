@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6891837533243391029}
-  - component: {fileID: 6891837533243391028}
+  - component: {fileID: 5383041284954522663}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6891837533243391028
+--- !u!114 &5383041284954522663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brick: {fileID: 2334480471518671024, guid: b81667892b9a7e740a59fee9f146b0a4, type: 3}
-  personality: {fileID: 7156079690241350972, guid: c99b39a45ecd0024798031e1eb888a17, type: 3}
-  personalityNewbie: {fileID: 7134447620383055915, guid: 9e03f4429d56a2245b256f353a4acf9f, type: 3}
+  amountOfPlayersPerRound: 10
+  personalityCompetitive: {fileID: 7134447620383055915, guid: 9e03f4429d56a2245b256f353a4acf9f, type: 3}
+  personalityNewbie: {fileID: 7156079690241350972, guid: c99b39a45ecd0024798031e1eb888a17, type: 3}

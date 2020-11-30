@@ -10,7 +10,7 @@ public class Bouncer : Personality
     }
 
     public override int MoveHeuristic(){
-        Debug.Log("BBBBBBBBB");
+       
         //VERY BASIC TEST VERSION, DO BETTER LATER
         float paddleX = paddle.transform.position.x;
         float ballX = calcTrajectory();

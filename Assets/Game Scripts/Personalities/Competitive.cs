@@ -3,17 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class Competitive : Personality
-{
-    //TWO FUNCTIONS BELOW NEED TO BE DEVELOPED AND WILL BE ABSTRACTED INTO MULTIPLE OTHER PERSONALITIES
-    void GenerateValues(){
-        //Generate different paddle_safety, APM and reaction time values within specific ranges dependent on specific personality type
+{  
+
+    protected override void Start()
+    {
+    base.Start();    // call base class
+
+    minAPM = 350;
+    maxAPM = 450;
+   
+    min_reaction_time = 0.005f; //difference between eye and hand
+    max_reaction_time = 0.01f; //difference between eye and hand
+    
+    min_paddle_safety_distance = 1f;
+    max_paddle_safety_distance = 1.1f;
+    GenerateValues();
+    
+    InvokeRepeating("PaddleMovement", 0, (float)60/APM);
     }
 
     public override int MoveHeuristic(){
+        Debug.Log("competitive heuristic");
         //VERY BASIC TEST VERSION, DO BETTER LATER
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;
 
+        
         if(ball.GetComponent<Rigidbody2D>().velocity.y < 0)
         ballX = calcTrajectory();
 

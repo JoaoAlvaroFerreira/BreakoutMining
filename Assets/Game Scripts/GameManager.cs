@@ -17,17 +17,50 @@ public class GameManager : MonoBehaviour
     public GameObject brick;
     private List<GameObject> bricks;
 
-    public GameObject personality; //TEMP, will be personality list later
+    public int amountOfPlayersPerRound;
+    public static List<GameObject> PlayerList;
+    public GameObject personalityCompetitive; //TEMP, will be personality list later
     public GameObject personalityNewbie;
 
     private float brickHeight;
 
     void Start()
     {
+        
+
+        if(round == 0)
+        generatePlayerList();
+       
+        
+       
+
+        
+
+        initGame();
+        
+    }
+
+    void generatePlayerList(){
+        List<GameObject> personalities = new List<GameObject>();
+        PlayerList = new List<GameObject>();
+        personalities.Add(personalityCompetitive);
+        personalities.Add(personalityNewbie);
+        for(int i = 0; i < amountOfPlayersPerRound; i++){
+            GameObject player = Instantiate(personalities[i % personalities.Count]);
+            PlayerList.Add(player);
+            player.SetActive(false);
+      }
+
+      foreach(GameObject p in PlayerList)
+            DontDestroyOnLoad(p);
+        
+    }
+
+    void initGame(){
         round++;
         time = 0;
         paddle = GameObject.Find("Paddle");
-        ball = GameObject.Find("Ball"); 
+        ball = GameObject.Find("Ball");
         SummonPlayer();
         ManagerTuning();
         
@@ -47,7 +80,6 @@ public class GameManager : MonoBehaviour
             GameObject tijolo = Instantiate (brick, new Vector3(i*2-8f, brickHeight-1f, 0), Quaternion.identity);
             bricks.Add(tijolo);
         }
-        
     }
 
     // Update is called once per frame
@@ -83,7 +115,8 @@ public class GameManager : MonoBehaviour
     }
 
     private void SummonPlayer(){
-        Instantiate(personalityNewbie);
+        PlayerList[round-1].SetActive(true);
+        PlayerList[round-1].GetComponent<Personality>().Play();
     }
 
     private void ManagerTuning(){
@@ -97,16 +130,17 @@ public class GameManager : MonoBehaviour
         //call Personality, give game data to obtain satisfaction
         //write logs
         //restart scene with new player, for now just restart
-
+        float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction();
+        PlayerList[round-1].SetActive(false);
         string strFilePath = @"./data.csv";
 
         if(round == 1){
-        File.WriteAllText(strFilePath,"session id, time, type of personality, amount of bricks,win/lose"); //COMMENT THIS IF YOU JUST WANT TO APPEND
+        File.WriteAllText(strFilePath,"session id, time, type of personality, amount of bricks,win/lose,satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND
          File.AppendAllText(strFilePath,Environment.NewLine);}
         //session id, time, type of personality, amount of bricks,win/lose
        
         
-        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win};
+        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win, (int)satisfaction};
 
         StringBuilder sbOutput = new StringBuilder();
         sbOutput.AppendLine(string.Join(",", outputarray));
@@ -118,5 +152,15 @@ public class GameManager : MonoBehaviour
         File.AppendAllText(strFilePath, sbOutput.ToString());
         
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        if(round == amountOfPlayersPerRound)
+        EndRound();
     }
+
+    private void EndRound(){
+        round = 0;
+        //get new players, train based on ML, etc.
+    }
+
+
 }

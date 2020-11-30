@@ -13,7 +13,7 @@ public class PaddleScript : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         spriteSize = GetComponent<SpriteRenderer>().size;
-        Debug.Log(spriteSize.x);
+        Debug.Log("Paddle Size: "+ spriteSize.x);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

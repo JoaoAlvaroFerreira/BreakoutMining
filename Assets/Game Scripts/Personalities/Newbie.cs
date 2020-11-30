@@ -4,12 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Newbie : Personality
 {
-    //TWO FUNCTIONS BELOW NEED TO BE DEVELOPED AND WILL BE ABSTRACTED INTO MULTIPLE OTHER PERSONALITIES
-    void GenerateValues(){
-        //Generate different paddle_safety, APM and reaction time values within specific ranges dependent on specific personality type
+
+    
+    protected override void Start()
+    {
+    base.Start();    // call base class
+
+    minAPM = 150;
+    maxAPM = 250;
+   
+    min_reaction_time = 0.03f; //difference between eye and hand
+    max_reaction_time = 0.04f; //difference between eye and hand
+    
+    min_paddle_safety_distance = .5f;
+    max_paddle_safety_distance = .8f;
+    GenerateValues();
+    InvokeRepeating("PaddleMovement", 0, (float)60/APM);
     }
 
     public override int MoveHeuristic(){
+
+        Debug.Log("newbie heuristic");
         //VERY BASIC TEST VERSION, DO BETTER LATER
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;
