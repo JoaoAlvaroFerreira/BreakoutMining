@@ -1,5 +1,2 @@
-session id, time, type of personality, amount of bricks,win/lose
-1,48,0,8,0
-2,1,0,26,0
-3,5,0,22,0
-4,1,0,26,0
+session id, brick height, paddle speed, ball speed, time, type of personality, amount of bricks,win/lose, playerAPM, playerReactionTime, playerPaddleSafety, GEQ - content, GEQ- skillful, GEQ - occupied, GEQ - difficulty, satisfaction
+1,4.5,25,10,45.54037,1,3,0,352.7831,0.008996551,1.08357,0,0,0,0,0

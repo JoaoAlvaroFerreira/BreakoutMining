@@ -22,6 +22,7 @@ public class Competitive : Personality
     InvokeRepeating("PaddleMovement", 0, (float)60/APM);
     }
 
+  
     public override int MoveHeuristic(){
         //VERY BASIC TEST VERSION, DO BETTER LATER
         float paddleX = paddle.transform.position.x;
@@ -63,7 +64,28 @@ public class Competitive : Personality
     return prediction;
     }
 
-    float CalculateSatisfaction(){
-        return 0;
+      public override float[] GetVariables(){
+        float[] a = {1, APM, reaction_time, paddle_safety_distance};
+        return a;
     }
+
+    
+    public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
+        //I felt content
+        float content = 0;
+        //I felt skilful
+        float skillful = 0;
+        //I was fully occupied with the game
+        float occupied = 0;
+        //I thought it was hard
+        float hard = 0;
+        //overall enjoyment
+        float satisfaction = 0;
+
+        float[] a = {content, skillful, occupied, hard, satisfaction};
+
+        return a;
+    }
+
+
 }

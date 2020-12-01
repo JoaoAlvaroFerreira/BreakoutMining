@@ -44,7 +44,27 @@ public class Newbie : Personality
         
     }
 
-    float CalculateSatisfaction(){
-        return 0;
+      public override float[] GetVariables(){
+        float[] a = {1, APM, reaction_time, paddle_safety_distance};
+        return a;
     }
+
+    
+    public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
+        //I felt content
+        float content = 0;
+        //I felt skilful
+        float skillful = 0;
+        //I was fully occupied with the game
+        float occupied = 0;
+        //I thought it was hard
+        float hard = paddleDistance/time - win;
+        //overall enjoyment
+        float satisfaction = 0;
+
+        float[] a = {content, skillful, occupied, hard, satisfaction};
+
+        return a;
+    }
+
 }

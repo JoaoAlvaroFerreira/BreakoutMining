@@ -24,10 +24,6 @@ public class Personality: MonoBehaviour{
     // Start is called before the first frame update
     protected virtual void Start()
     {
-      
-      
-        
-        
         
     }
 
@@ -36,6 +32,28 @@ public class Personality: MonoBehaviour{
     }
     public float getReactionTime(){
         return reaction_time;
+    }
+
+    public virtual float[] GetVariables(){
+        float[] a = {0, APM, reaction_time, paddle_safety_distance};
+        return a;
+    }
+
+    public virtual float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
+        //I felt content
+        float content = 0;
+        //I felt skilful
+        float skillful = 0;
+        //I was fully occupied with the game
+        float occupied = 0;
+        //I thought it was hard
+        float hard = 0;
+        //overall enjoyment
+        float satisfaction = 0;
+
+        float[] a = {content, skillful, occupied, hard, satisfaction};
+
+        return a;
     }
 
     public void Play(){
@@ -112,10 +130,5 @@ public class Personality: MonoBehaviour{
         return 0;
         
     }
-    //make virtual eventually
-    public float CalculateSatisfaction(){
-        StopCoroutine(takeAction());
-        return 1;
-    }
-
+   
 }

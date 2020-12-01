@@ -9,12 +9,16 @@ public class PaddleScript : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 spriteSize;
 
-    void Awake(){
-        
-         
-    }
+    public float distanceRan;
+    public int ballHits;
+
+    Vector3 lastPosition;
+
     void Start()
     {
+        lastPosition = transform.position;
+        distanceRan =0;
+        ballHits = 0;
         rb = GetComponent<Rigidbody2D>();
         spriteSize = GetComponent<SpriteRenderer>().size;
         
@@ -25,6 +29,7 @@ public class PaddleScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ball")
         {
+            ballHits++;
             float halfLength = (spriteSize.x * transform.localScale.x) / 2;
             float x = collision.gameObject.transform.position.x;
             float myX = transform.position.x;
@@ -43,6 +48,8 @@ public class PaddleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+         distanceRan += Vector3.Distance(transform.position, lastPosition);
+  lastPosition = transform.position;
        
         if(transform.position.x > 8){
             transform.position = new Vector3(8,transform.position.y,transform.position.z);

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public GameObject personalityNewbie;
 
     private float brickHeight;
+    private float[] roundCharacteristics = new float[3]{4.5f, 25f, 10f};
 
     void Start()
     {
@@ -34,7 +35,17 @@ public class GameManager : MonoBehaviour
           
 
         initGame();
+
+        //roundCharacteristics = new float[3]{4.5f, 25f, 10f};
+
         
+    }
+
+     private void ManagerTuning(){
+        //TEMP
+        brickHeight = roundCharacteristics[0];
+        paddle.GetComponent<PaddleScript>().PaddleSpeed = roundCharacteristics[1];
+        ball.GetComponent<BallScript>().SetSpeed(roundCharacteristics[2]);
     }
 
     void generatePlayerList(){
@@ -121,12 +132,7 @@ public class GameManager : MonoBehaviour
         PlayerList[round-1].GetComponent<Personality>().Play();
     }
 
-    private void ManagerTuning(){
-        //TEMP
-        brickHeight = 4.5f;
-        paddle.GetComponent<PaddleScript>().PaddleSpeed = 25f;
-        ball.GetComponent<BallScript>().SetSpeed(10);
-    }
+   
 
     private void ManagerLogs(int win){
         //call Personality, give game data to obtain satisfaction
@@ -134,18 +140,26 @@ public class GameManager : MonoBehaviour
         //restart scene with new player, for now just restart
 
         //float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction(win, time);
+        float paddleDistance = paddle.GetComponent<PaddleScript>().distanceRan;
+        float ballHits = paddle.GetComponent<PaddleScript>().ballHits;
+        
+        float[] playerVars = PlayerList[round-1].GetComponent<Personality>().GetVariables();
+        float[] playerQED =  PlayerList[round-1].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, time, bricksCount(), win);
+
         PlayerList[round-1].SetActive(false);
+
+
 
         string strFilePath = @"./data.csv";
 
         if(round == 1){
-        File.WriteAllText(strFilePath,"session id, time, type of personality, amount of bricks,win/lose"); //COMMENT THIS IF YOU JUST WANT TO APPEND
+        File.WriteAllText(strFilePath,"session id, brick height, paddle speed, ball speed, time, type of personality, amount of bricks,win/lose, playerAPM, playerReactionTime, playerPaddleSafety, GEQ - content, GEQ- skillful, GEQ - occupied, GEQ - difficulty, satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
         File.AppendAllText(strFilePath,Environment.NewLine);
         }
         //session id, time, type of personality, amount of bricks,win/lose
        
         
-        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win}; //valores das colunas
+        float[] outputarray = new float[]{round,roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time,playerVars[0], bricksCount() ,win,playerVars[1],playerVars[2],playerVars[3], playerQED[0],playerQED[1],playerQED[2],playerQED[3],playerQED[4]}; //valores das colunas
 
         StringBuilder sbOutput = new StringBuilder();
         sbOutput.AppendLine(string.Join(",", outputarray));
