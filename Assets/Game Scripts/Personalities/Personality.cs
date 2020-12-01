@@ -63,18 +63,20 @@ public class Personality: MonoBehaviour{
         
         yield return new WaitForSeconds(reaction_time);
 
+      
+
         switch(choice){
             case 0:
             paddle.GetComponent<PaddleScript>().Stay();
-            Debug.Log("stay");
+           
             break;
             case 1:
             paddle.GetComponent<PaddleScript>().MoveLeft();
-            Debug.Log("left");
+    
             break;
             case 2:
             paddle.GetComponent<PaddleScript>().MoveRight();
-            Debug.Log("right");
+        
             break;
         }
     }

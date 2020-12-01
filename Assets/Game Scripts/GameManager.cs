@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     private void ManagerTuning(){
         //TEMP
         brickHeight = 4.5f;
-        paddle.GetComponent<PaddleScript>().PaddleSpeed = 15f;
+        paddle.GetComponent<PaddleScript>().PaddleSpeed = 25f;
         ball.GetComponent<BallScript>().SetSpeed(10);
     }
 
@@ -133,19 +133,19 @@ public class GameManager : MonoBehaviour
         //write logs
         //restart scene with new player, for now just restart
 
-        float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction();
+        //float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction(win, time);
         PlayerList[round-1].SetActive(false);
 
         string strFilePath = @"./data.csv";
 
         if(round == 1){
-        File.WriteAllText(strFilePath,"session id, time, type of personality, amount of bricks,win/lose,satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND
+        File.WriteAllText(strFilePath,"session id, time, type of personality, amount of bricks,win/lose"); //COMMENT THIS IF YOU JUST WANT TO APPEND
         File.AppendAllText(strFilePath,Environment.NewLine);
         }
         //session id, time, type of personality, amount of bricks,win/lose
        
         
-        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win, (int)satisfaction}; //valores das colunas
+        int[] outputarray = new int[]{round,(int)time, 0, bricksCount() ,win}; //valores das colunas
 
         StringBuilder sbOutput = new StringBuilder();
         sbOutput.AppendLine(string.Join(",", outputarray));
