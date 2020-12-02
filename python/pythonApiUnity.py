@@ -1,7 +1,9 @@
 from mlagents_envs.environment import UnityEnvironment
 import numpy as np
 
-env = UnityEnvironment(file_name=None, seed=1, side_channels=[])
+unity_timeout = 1000000
+env = UnityEnvironment(file_name=None, seed=1,
+                       timeout_wait=unity_timeout, side_channels=[])
 # env = UnityEnvironment(file_name="./build/BreakoutMining", seed=1,side_channels=[], no_graphics=True)
 
 env.reset()
