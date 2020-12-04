@@ -7,7 +7,7 @@ def read_dataset(dataset_name):
     folder_path = Path(".")
 
     file_path = str(folder_path / dataset_name)
-    dataset = pd.read_csv(file_path, sep=",", low_memory=False)
+    dataset = pd.read_csv(file_path, sep=";", low_memory=False)
 
     return dataset
 
@@ -35,6 +35,8 @@ def data_preparation_train(csv_path):
     y_train = labels_selector(train)
     X_test = features_selector(test)
     y_test = labels_selector(test)
+
+    print(dataset)
 
     return X_train, y_train, X_test, y_test
 

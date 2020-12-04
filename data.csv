@@ -1,6 +1,6 @@
-session id,brick height,paddle speed,ball speed,time,type of personality,amount of bricks,win/lose,playerAPM,playerReactionTime,playerPaddleSafety,GEQ - content,GEQ- skillful,GEQ - occupied,GEQ - difficulty,satisfaction
-1,4,5,25,10,1,400438,1,26,0,172,5737,0,3319016,1,161863
-2,4,5,25,10,36,92268,1,14,0,358,5616,0,9313229,1,222932
-3,4,5,25,10,1,406032,1,26,0,171,772,0,3671188,1,161986
-4,4,5,25,10,123,7961,1,0,1,353,8897,0,5813808,1,36749
-5,4,5,25,10,13,7811,1,24,0,228,6918,0,3923947,1,205329
+session id;brick height;paddle speed;ball speed;time;type of personality;amount of bricks;win/lose;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction
+1;4.5;25;10;1.403835;1;25;0;232.6222;0.03439391;1.001804;0;0;0;14.95902;0
+2;4.5;25;10;5.017289;1;25;0;389.2248;0.00556608;1.178974;0;0;0;0;0
+3;4.5;25;10;32.92146;1;18;0;206.6567;0.03320172;1.09176;0;0;0;22.24992;0
+4;4.5;25;10;60.13843;1;5;0;440.7905;0.008562845;1.184588;0;0;0;0;0
+5;4.5;25;10;10.58361;1;21;0;247.0112;0.0368237;1.238429;0;0;0;152.6889;0

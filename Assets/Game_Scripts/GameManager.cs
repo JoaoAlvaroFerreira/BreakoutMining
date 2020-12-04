@@ -141,6 +141,11 @@ public class GameManager : Agent
 
     private void ManagerLogs(int win)
     {
+        // Set dot as default for floats
+        System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+        customCulture.NumberFormat.NumberDecimalSeparator = ".";
+        System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+        
         stopped = true;
         paddle.SetActive(false);
         ball.SetActive(false);
@@ -163,16 +168,18 @@ public class GameManager : Agent
 
         if (round == 1)
         {
-            File.WriteAllText(strFilePath, "session id, brick height, paddle speed, ball speed, time, type of personality, amount of bricks,win/lose, playerAPM, playerReactionTime, playerPaddleSafety, GEQ - content, GEQ- skillful, GEQ - occupied, GEQ - difficulty, satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
+            File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed;time;type of personality;amount of bricks;win/lose;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
             File.AppendAllText(strFilePath, Environment.NewLine);
         }
         //session id, time, type of personality, amount of bricks,win/lose
 
 
+        //float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, playerVars[0], bricksCount(), win, playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
         float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, playerVars[0], bricksCount(), win, playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
 
         StringBuilder sbOutput = new StringBuilder();
-        sbOutput.AppendLine(string.Join(",", outputarray));
+        sbOutput.AppendLine(string.Join(";", outputarray));
+        Debug.Log(sbOutput);
 
         // Create and write the csv file
         // File.WriteAllText(strFilePath, sbOutput.ToString());
