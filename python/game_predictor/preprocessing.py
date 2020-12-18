@@ -46,6 +46,6 @@ def data_preparation_predict(csv_path):
 
     X_pred = features_selector(dataset)
 
-    X_pred['satisfaction'] = 205329
+    X_pred.loc['satisfaction'] = 205329
 
     return X_pred
