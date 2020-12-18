@@ -1,6 +1,6 @@
 from game_predictor import GamePredictor
 
-gp = GamePredictor("knn")
+gp = GamePredictor("svm")
 
 gp.train("data.csv")
 
