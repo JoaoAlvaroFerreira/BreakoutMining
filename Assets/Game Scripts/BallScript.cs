@@ -25,6 +25,11 @@ public class BallScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+
+        if(rb.velocity.y < 1 && rb.velocity.y > -1)
+        rb.velocity = new Vector2(rb.velocity.x, 5);
+    
+
         if(col.gameObject.name == "Floor")
         hitFloor = true;
     }
