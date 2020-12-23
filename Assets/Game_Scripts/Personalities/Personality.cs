@@ -100,7 +100,7 @@ public class Personality: MonoBehaviour{
     }
 
     //TWO FUNCTIONS WILL BE ABSTRACTED INTO MULTIPLE OTHER PERSONALITIES
-    public void GenerateValues(){
+    public virtual void GenerateValues(){
         //Generate different paddle_safety, APM and reaction time values 
         //within specific ranges dependent on specific personality type
 

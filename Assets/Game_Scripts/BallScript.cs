@@ -37,4 +37,8 @@ public class BallScript : MonoBehaviour
     public bool getHitFloor(){
         return hitFloor;
     }
+    public void Reset()
+    {
+        hitFloor = false;
+    }
 }
