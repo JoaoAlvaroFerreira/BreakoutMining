@@ -71,16 +71,57 @@ public class Competitive : Personality
 
     
     public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
-        //I felt content
         float content = 0;
+        if(win == 1)
+        content++;
+        if(time > 40 && time < 130)
+        content++;
+        if(bricks < 20)
+        content++;
+        if(bricks < 10)
+        content++;
+        if(ballHits*1.5 < (30-bricks))
+        content++;
+        
         //I felt skilful
         float skillful = 0;
+        if(ballHits*2 < (30-bricks))
+        skillful++;
+        if(win == 1)
+        skillful++;
+        if(time/paddleDistance > 10)
+        skillful++;
+        if(time/paddleDistance > 16)
+        skillful++;
+        if(bricks<15)
+        skillful++;
+
         //I was fully occupied with the game
         float occupied = 0;
+        if(time/paddleDistance < 13)
+        occupied++;
+        if(time/paddleDistance < 7)
+        occupied++;
+        if(time/ballHits < 3)
+        occupied++;
+        if(ballHits > 8)
+        occupied++;
+        if(ballHits > 15)
+        occupied++;
+
         //I thought it was hard
-        float hard = 0;
+        float hard = 5;
+        if(win == 0)
+        hard--;
+        if(time/ballHits > 3.5)
+        hard--;
+        if(bricks > 17)
+        hard--;
+        if(bricks > 7)
+        hard--;
+
         //overall enjoyment
-        float satisfaction = 0;
+        float satisfaction = (float)(content *.75+ skillful*2+occupied*.5+hard*1.5);
 
         float[] a = {content, skillful, occupied, hard, satisfaction};
 

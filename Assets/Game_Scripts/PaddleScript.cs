@@ -25,6 +25,11 @@ public class PaddleScript : MonoBehaviour
         Debug.Log("Paddle Size: "+ spriteSize.x);
      
     }
+
+    public void resetValues(){
+        distanceRan = 0;
+        ballHits = 0;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Ball")
