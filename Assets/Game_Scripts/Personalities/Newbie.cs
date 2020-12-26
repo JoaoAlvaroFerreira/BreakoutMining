@@ -102,7 +102,7 @@ public class Newbie : Personality
         hard--;
 
         //overall enjoyment
-        float satisfaction = (float)(content *1.5+ skillful*.75+occupied*2+hard*.5);
+        float satisfaction = (float)(content *1.5+ skillful*.75+occupied*1.25+hard*.5);
 
         float[] a = {content, skillful, occupied, hard, satisfaction};
 

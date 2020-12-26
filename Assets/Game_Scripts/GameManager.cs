@@ -22,6 +22,7 @@ public class GameManager : Agent
     public static List<GameObject> PlayerList;
     public GameObject personalityCompetitive; //TEMP, will be personality list later
     public GameObject personalityNewbie;
+    public GameObject personalityExperienced;
 
     private float brickHeight;
     private float[] roundCharacteristics = new float[3] { 4.5f, 25f, 10f };
@@ -42,6 +43,7 @@ public class GameManager : Agent
         PlayerList = new List<GameObject>();
         personalities.Add(personalityNewbie); 
         personalities.Add(personalityCompetitive);
+        personalities.Add(personalityExperienced);
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)
         {
@@ -248,7 +250,7 @@ public class GameManager : Agent
 
     public override void OnEpisodeBegin()
     {
-        Debug.Log("Episode begin");
+
         stopped = true;
         round++;
         paddle.transform.position = new Vector3(0, -4, 0);

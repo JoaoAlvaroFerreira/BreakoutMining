@@ -121,7 +121,7 @@ public class Competitive : Personality
         hard--;
 
         //overall enjoyment
-        float satisfaction = (float)(content *.75+ skillful*2+occupied*.5+hard*1.5);
+        float satisfaction = (float)(content *.75 + skillful*1.5 + occupied*.5 + hard*1.25);
 
         float[] a = {content, skillful, occupied, hard, satisfaction};
 
