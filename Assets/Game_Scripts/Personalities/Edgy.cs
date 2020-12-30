@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Competitive : Personality
+
+
+public class Edgy : Personality
 {  
 
     protected override void Start()
     {
     base.Start();    // call base class
 
-    minAPM = 370;
-    maxAPM = 500;
+    minAPM = 360;
+    maxAPM = 490;
    
     min_reaction_time = 0.005f; //difference between eye and hand
     max_reaction_time = 0.01f; //difference between eye and hand
@@ -28,20 +30,24 @@ public class Competitive : Personality
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;
 
+        float pointA = ballX + paddle_safety_distance/2;
+        float pointB = ballX + paddle_safety_distance/2;
         
         if(ball.GetComponent<Rigidbody2D>().velocity.y < 0)
         ballX = calcTrajectory();
 
         float distanceX = paddleX - ballX;
+        float distanceA = paddleX - pointA;
+        float distanceB = paddleX - pointB;
 
-        if(Math.Abs(distanceX) <= paddle_safety_distance)
+        if(Math.Abs(distanceA) <= paddle_safety_distance || Math.Abs(distanceB) <= paddle_safety_distance)
             return 0;
         
-        if(distanceX > paddle_safety_distance)
+        else if(Math.Abs(distanceA) <= Math.Abs(distanceB))
             return 1;
 
-        if(distanceX < paddle_safety_distance)
-            return 2;
+        else return 2;
+        
         
         return 0;
         
@@ -65,7 +71,7 @@ public class Competitive : Personality
     }
 
       public override float[] GetVariables(){
-        float[] a = {2, APM, reaction_time, paddle_safety_distance};
+        float[] a = {5, APM, reaction_time, paddle_safety_distance};
         return a;
     }
 

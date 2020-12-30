@@ -24,6 +24,7 @@ public class GameManager : Agent
     public GameObject personalityNewbie;
     public GameObject personalityExperienced;
     public GameObject personalityUnpredictable;
+    public GameObject personalityEdgy;
 
     private float brickHeight;
     private float[] roundCharacteristics = new float[3] { 4.5f, 25f, 10f };
@@ -36,6 +37,11 @@ public class GameManager : Agent
         brickHeight = roundCharacteristics[0];
         paddle.GetComponent<PaddleScript>().PaddleSpeed = roundCharacteristics[1];
         ball.GetComponent<BallScript>().SetSpeed(roundCharacteristics[2]);
+
+        float roundCharacteristics4 = UnityEngine.Random.Range(10.0f,22.0f);
+        float roundCharacteristics5 = UnityEngine.Random.Range(1.0f,6.0f);
+        paddle.transform.localScale = new Vector3(roundCharacteristics4,0.5f,4);
+        ball.transform.localScale = new Vector3(roundCharacteristics5,roundCharacteristics5,roundCharacteristics5);
     }
 
     void generatePlayerList()
@@ -46,6 +52,7 @@ public class GameManager : Agent
         personalities.Add(personalityCompetitive);
         personalities.Add(personalityExperienced);
         personalities.Add(personalityUnpredictable);
+        personalities.Add(personalityEdgy);
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)
         {
@@ -162,6 +169,8 @@ public class GameManager : Agent
         float ballHits = paddle.GetComponent<PaddleScript>().ballHits;
 
         float[] playerVars = PlayerList[round - 1].GetComponent<Personality>().GetVariables();
+
+        Debug.Log("PERSONALITY TYPE: " + playerVars[0]);
         float[] playerQED = PlayerList[round - 1].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, time, bricksCount(), win);
 
         PlayerList[round - 1].SetActive(false);

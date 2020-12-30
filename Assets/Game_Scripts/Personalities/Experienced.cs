@@ -71,7 +71,7 @@ public class Experienced : Personality
 
     public override float[] GetVariables()
     {
-        float[] a = { 1, APM, reaction_time, paddle_safety_distance };
+        float[] a = { 3, APM, reaction_time, paddle_safety_distance };
         return a;
     }
 
