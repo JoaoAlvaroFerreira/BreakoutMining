@@ -87,7 +87,7 @@ public class Unpredictable : Personality
     }
 
 
-    public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win)
+    public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win)
     {
         //I felt content
         float content = 0;

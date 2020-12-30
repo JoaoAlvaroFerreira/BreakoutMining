@@ -39,7 +39,7 @@ public class Personality: MonoBehaviour{
         return a;
     }
 
-    public virtual float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
+    public virtual float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win){
         //I felt content
         float content = 0;
         //I felt skilful

@@ -76,7 +76,7 @@ public class Edgy : Personality
     }
 
     
-    public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
+    public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win){
         float content = 0;
         if(win == 1)
         content++;
