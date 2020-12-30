@@ -1,5 +1,10 @@
-from pathlib import Path
 import pandas as pd
+import numpy as np
+import itertools
+
+from pathlib import Path
+
+radius = 10
 
 
 def read_dataset(dataset_name):
@@ -12,7 +17,28 @@ def read_dataset(dataset_name):
 
 
 def filter_satisfaction(dataset):
-    return dataset
+    filtered_dataset = dataset
+    print("Started Filtering data")
+    for i, j in itertools.combinations(dataset.index, 2):
+        row_i = dataset.loc[i]
+        row_j = dataset.loc[j]
+
+        if (i not in filtered_dataset.index or j not in filtered_dataset.index):
+            continue
+
+        dist = np.linalg.norm(row_i - row_j)
+
+        if (row_i['satisfaction'] < 13):
+            filtered_dataset = filtered_dataset.drop(i)
+        elif (dist <= radius and row_j['satisfaction'] < 13):
+            filtered_dataset = filtered_dataset.drop(i)
+
+        if (row_j['satisfaction'] < 13):
+            filtered_dataset = filtered_dataset.drop(j)
+        elif (dist <= radius and row_i['satisfaction'] < 13):
+            filtered_dataset = filtered_dataset.drop(j)
+
+    return filtered_dataset
 
 
 def features_selector(dataset):
@@ -31,10 +57,10 @@ def labels_selector(dataset):
 def data_preparation_train(csv_path):
     dataset = read_dataset(csv_path)
 
-    filtered_datatset = filter_satisfaction(dataset)
+    # dataset = filter_satisfaction(dataset)
 
-    X_train = features_selector(filtered_datatset)
-    y_train = labels_selector(filtered_datatset)
+    X_train = features_selector(dataset)
+    y_train = labels_selector(dataset)
 
     return X_train, y_train
 
