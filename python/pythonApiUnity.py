@@ -1,6 +1,7 @@
 from mlagents_envs.environment import UnityEnvironment
 import numpy as np
-from game_predictor import GamePredictor
+from game_predictor import GamePredictor, ppo
+from game_predictor.ppo import PPOModel
 
 unity_timeout = 1000000
 
@@ -11,39 +12,57 @@ env = UnityEnvironment(file_name=None, seed=1,
 
 gp = GamePredictor("knn")
 episodes = 10
+agent_number = 1
+input_size = 14
+output_size = 3
 
-env.reset()
+
+rl = PPOModel(input_size, output_size)
+
+# https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/api/Unity.MLAgents.Agent.html#methods
+# https://github.com/Unity-Technologies/ml-agents/tree/master/docs#python-tutorial-with-google-colab
 for i in range(episodes):
+    env.reset()
     behaviour_names = list(env.behavior_specs.keys())
     behaviour_specs = list(env.behavior_specs.values())
-    print(behaviour_names)
+    print(behaviour_specs)
 
     # https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Python-API.md#terminalsteps-and-terminalstep
-    terminated_steps = []
     # https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Python-API.md#decisionsteps-and-decisionstep
-    decision_steps = []
 
-    while len(decision_steps) == 0:
-        behaviour_tuple = env.get_steps(behavior_name=behaviour_names[0])
-        decision_steps = behaviour_tuple[0]
-        terminated_steps = behaviour_tuple[1]
+    decision_steps, terminated_steps = env.get_steps(
+        behavior_name=behaviour_names[0])
+    done = False
+    while not done:
+        # A game is starting and asked for the parameters
+        print("Deciding, array of observation is:")
+        print(decision_steps.obs)
+        agent_id = decision_steps.agent_id[0]
+        action = rl.get_action(decision_steps.obs[agent_id])
+        print("Action decided:")
+        print(action)
+        action = np.array([action])
+        env.set_action_for_agent(
+            behaviour_names[0], agent_id, action)
+        print("Decision sent, wait for next ones")
+        env.step()
+        print("Reading requests")
+        decision_steps, terminated_steps = env.get_steps(
+            behavior_name=behaviour_names[0])
 
-    # A game is starting and asked for the parameters
-    print("Game is starting")
+        if len(terminated_steps) == agent_number:
+            rl.end_game(
+                terminated_steps.reward[agent_id], True)
+            rl.end_episode()
+            done = True
+        else:
+            print(f"Game reward: {decision_steps.reward[agent_id]}")
+            rl.end_game(decision_steps.reward[agent_id], False)
 
-    action = np.array([[10, i+1]])
-    env.set_actions(behavior_name=behaviour_names[0], action=action)
-    env.step()
-
-    while len(terminated_steps) == 0:
-        behaviour_tuple = env.get_steps(behavior_name=behaviour_names[0])
-        decision_steps = behaviour_tuple[0]
-        terminated_steps = behaviour_tuple[1]
-
-    # The game has ended
-    print("Game has ended")
+        # The game has ended
+        print("Game has ended")
 
 
 env.close()
 
-gp.train("data.csv")
+# gp.train("data.csv")
