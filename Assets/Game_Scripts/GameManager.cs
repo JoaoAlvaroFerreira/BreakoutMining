@@ -23,6 +23,7 @@ public class GameManager : Agent
     public GameObject personalityCompetitive; //TEMP, will be personality list later
     public GameObject personalityNewbie;
     public GameObject personalityExperienced;
+    public GameObject personalityUnpredictable;
 
     private float brickHeight;
     private float[] roundCharacteristics = new float[3] { 4.5f, 25f, 10f };
@@ -42,6 +43,7 @@ public class GameManager : Agent
         personalities.Add(personalityNewbie);
         personalities.Add(personalityCompetitive);
         personalities.Add(personalityExperienced);
+        personalities.Add(personalityUnpredictable);
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)
         {
