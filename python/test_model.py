@@ -1,9 +1,14 @@
+from shutil import copyfile
+
 from game_predictor import GamePredictor
 
-gp = GamePredictor("svm")
+copyfile('./data.csv', './data_train.csv')
+copyfile('./data.csv', './data_test.csv')
 
-gp.train("data.csv")
+gp = GamePredictor("knn")
 
-results = gp.predict("data_pred.csv")
+gp.train("data_train.csv")
+
+results = gp.predict("data_test.csv")
 
 print(results)

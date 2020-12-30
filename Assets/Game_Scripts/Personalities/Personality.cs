@@ -70,8 +70,8 @@ public class Personality: MonoBehaviour{
 
 
     void PaddleMovement(){
-       if(gameObject.activeSelf == true) 
-        StartCoroutine(takeAction());
+        if (paddle == null) return;
+        if(gameObject.activeSelf == true) StartCoroutine(takeAction());
         
     }
 
