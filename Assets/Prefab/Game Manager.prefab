@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6891837533243391029}
   - component: {fileID: 5383041284954522663}
-  - component: {fileID: 1307703604867051797}
+  - component: {fileID: 781882909212873774}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -54,7 +54,7 @@ MonoBehaviour:
   personalityNewbie: {fileID: 7156079690241350972, guid: c99b39a45ecd0024798031e1eb888a17, type: 3}
   personalityExperienced: {fileID: 7134447620383055915, guid: 7a9aee50cc8062742b85d2636a3626e1, type: 3}
   personalityUnpredictable: {fileID: 7134447620383055915, guid: 5b757ada8f8f0b44ebc6f77c76775450, type: 3}
---- !u!114 &1307703604867051797
+--- !u!114 &781882909212873774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 14
+    VectorObservationSize: 13
     NumStackedVectorObservations: 1
     VectorActionSize: 03000000
     VectorActionDescriptions: []
@@ -75,6 +75,6 @@ MonoBehaviour:
   m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: Manager
+  m_BehaviorName: My Behavior
   TeamId: 0
   m_UseChildSensors: 1

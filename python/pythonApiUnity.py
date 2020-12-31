@@ -19,7 +19,7 @@ output_size = 3
 
 rl = PPOModel(input_size, output_size)
 
-# https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/api/Unity.MLAgents.Agent.html#methods
+# https://docs.unity3d.com/Packages/com.unity.ml-agents@1.6/api/Unity.MLAgents.Agent.html
 # https://github.com/Unity-Technologies/ml-agents/tree/master/docs#python-tutorial-with-google-colab
 for i in range(episodes):
     env.reset()

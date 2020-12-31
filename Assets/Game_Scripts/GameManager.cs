@@ -28,10 +28,13 @@ public class GameManager : Agent
     private float brickHeight;
     private float[] roundCharacteristics = new float[3] { 4.5f, 25f, 10f };
 
-    private int episodeNumber = 0;
+    private int episodeNumber = -1;
     private int episodeCount = 0;
 
     private bool stopped = true;
+    private bool haveParameters = false;
+    private bool requestingDecision = false;
+    private bool firstDecision = true;
 
     private Observations latestObservations;
 
@@ -91,16 +94,28 @@ public class GameManager : Agent
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (!stopped)
+        if(!stopped)
         {
-            time += Time.deltaTime;
-            if (ball.GetComponent<BallScript>().getHitFloor())
-                ManagerLogs(0);
+            if (haveParameters)
+            {
+                time += Time.deltaTime;
+                if (ball.GetComponent<BallScript>().getHitFloor())
+                    ManagerLogs(0);
 
-            if (destructionCheck())
-                ManagerLogs(1);
+                if (destructionCheck())
+                    ManagerLogs(1);
+            }
+            else
+            {
+                if (!requestingDecision && Academy.IsInitialized && Academy.Instance.IsCommunicatorOn)
+                {
+                    requestingDecision = true;
+                    Debug.Log("Requesting parameters");
+                    RequestDecision();
+                }
+            }
         }
     }
 
@@ -128,19 +143,22 @@ public class GameManager : Agent
 
     private void SummonPlayer()
     {
-        PlayerList[episodeNumber - 1].SetActive(true);
+        if(episodeNumber >= 0)
+            PlayerList[episodeNumber].SetActive(false);
+        episodeNumber++;
+        if (episodeNumber >= PlayerList.Count)
+            episodeNumber = 0;
     }
 
 
 
     private void ManagerLogs(int win)
     {
+        stopped = true;
         // Set dot as default for floats
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
-        stopped = true;
 
         //call Personality, give game data to obtain satisfaction
         //write logs
@@ -151,10 +169,9 @@ public class GameManager : Agent
         float paddleDistance = paddle.GetComponent<PaddleScript>().distanceRan;
         float ballHits = paddle.GetComponent<PaddleScript>().ballHits;
 
-        float[] playerVars = PlayerList[episodeNumber - 1].GetComponent<Personality>().GetVariables();
-        float[] playerQED = PlayerList[episodeNumber - 1].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, time, bricksCount(), win);
+        float[] playerVars = PlayerList[episodeNumber].GetComponent<Personality>().GetVariables();
+        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, time, bricksCount(), win);
 
-        PlayerList[episodeNumber - 1].SetActive(false);
 
 
 
@@ -185,19 +202,19 @@ public class GameManager : Agent
 
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         // 
+        haveParameters = false;
 
-        if(round == 10)
+        if (round == 10)
         {
             round = 0;
+            firstDecision = true;
             EndEpisode();
         }
         else
         {
-
-            Debug.Log("Game end");
             initGame();
-            Debug.Log("Requesting parameters");
-            RequestDecision();
+            haveParameters = false;
+            stopped = false;
         }
     }
 
@@ -209,15 +226,10 @@ public class GameManager : Agent
 
     void initGame()
     {
-        stopped = true;
         time = 0;
-        paddle = GameObject.Find("Paddle");
-        ball = GameObject.Find("Ball");
         paddle.transform.position = new Vector3(0, -4, 0);
         ball.transform.position = new Vector3(0, -3, 0);
         ball.GetComponent<BallScript>().Reset();
-        paddle.SetActive(false);
-        ball.SetActive(false);
     }
 
     private class Observations
@@ -259,7 +271,13 @@ public class GameManager : Agent
     {
         round = 0;
         generatePlayerList();
-        this.latestObservations = new Observations(0, 0, 0, 0, 0, new float[4], new float[4]);
+        this.latestObservations = new Observations(1, 1, 1, 1, 1, new float[4], new float[4]);
+        paddle = GameObject.Find("Paddle");
+        ball = GameObject.Find("Ball");
+        stopped = true;
+        requestingDecision = false;
+        haveParameters = false;
+        RequestDecision();
     }
 
 
@@ -283,34 +301,34 @@ public class GameManager : Agent
     public override void OnActionReceived(float[] vectorAction)
     {
         Debug.Log("Parameters received");
-        brickHeight = vectorAction[0] + 1;
+        float[] decisions = vectorAction;
+        Debug.Log("Brick height: " + decisions[0] + " Paddle speed: " + decisions[1] + " Ball speed: " + decisions[2]);
+        brickHeight = decisions[0] + 2;
         resetBricks(); // Delete old bricks and create new ones
-        paddle.SetActive(true);
-        ball.SetActive(true);
-        paddle.GetComponent<PaddleScript>().PaddleSpeed = vectorAction[1] + 1;
-        ball.GetComponent<BallScript>().SetSpeed(vectorAction[2] + 1);
-        stopped = false;
-        PlayerList[episodeNumber - 1].SetActive(true);
-        PlayerList[episodeNumber - 1].GetComponent<Personality>().Play();
+        paddle.GetComponent<PaddleScript>().PaddleSpeed = decisions[1] + 2;
+        ball.GetComponent<BallScript>().SetSpeed(decisions[2] + 2);
+        PlayerList[episodeNumber].SetActive(true);
+        PlayerList[episodeNumber].GetComponent<Personality>().Play();
         round++;
-        Debug.Log("Starting the game");
+        Debug.Log("Starting the game round:" + round);
+        haveParameters = true;
+        requestingDecision = false;
     }
 
     public override void Heuristic(float[] actionsOut)
     {
     }
-
     public override void OnEpisodeBegin()
     {
-        stopped = true;
-        Debug.Log("episode begin");
-        episodeNumber++;
+        if(firstDecision)
+        {
+            firstDecision = false;
+            return;
+        }
+        Debug.Log("episode begin number: " + episodeCount);
         episodeCount++;
-        if (episodeNumber >= PlayerList.Count)
-            episodeNumber = 0;
         initGame(); // Find the ball and Reset the position of the ball and paddle and time
         SummonPlayer(); // Change the player
-        Debug.Log("Requesting parameters");
-        RequestDecision();
+        stopped = false;
     }
 }
