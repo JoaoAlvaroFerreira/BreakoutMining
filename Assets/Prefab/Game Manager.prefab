@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6891837533243391029}
   - component: {fileID: 5383041284954522663}
-  - component: {fileID: 781882909212873774}
+  - component: {fileID: 1307703604867051797}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 13
+    VectorObservationSize: 14
     NumStackedVectorObservations: 1
     VectorActionSize: 05000000
     VectorActionDescriptions: []

@@ -60,7 +60,7 @@ public class GameManager : Agent
         foreach (GameObject p in PlayerList)
             DontDestroyOnLoad(p);
 
-     
+
     }
 
 
@@ -95,7 +95,7 @@ public class GameManager : Agent
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(!stopped)
+        if (!stopped)
         {
             if (haveParameters)
             {
@@ -142,7 +142,7 @@ public class GameManager : Agent
 
     private void SummonPlayer()
     {
-        if(episodeNumber >= 0)
+        if (episodeNumber >= 0)
             PlayerList[episodeNumber].SetActive(false);
         episodeNumber++;
         if (episodeNumber >= PlayerList.Count)
@@ -169,8 +169,8 @@ public class GameManager : Agent
         float ballHits = paddle.GetComponent<PaddleScript>().ballHits;
         int ballBounces = ball.GetComponent<BallScript>().getBallBounces();
 
-        float[] playerVars = PlayerList[episodeNumber - 1].GetComponent<Personality>().GetVariables();
-        float[] playerQED = PlayerList[episodeNumber - 1].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time, bricksCount(), win);
+        float[] playerVars = PlayerList[episodeNumber].GetComponent<Personality>().GetVariables();
+        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time, bricksCount(), win);
 
 
 
@@ -186,7 +186,7 @@ public class GameManager : Agent
 
 
         //float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, playerVars[0], bricksCount(), win, playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
-        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2],roundCharacteristics[3], roundCharacteristics[4], time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
+        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], roundCharacteristics[3], roundCharacteristics[4], time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
         this.latestObservations = new Observations(time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars, playerQED);
         time = 0;
         paddle.GetComponent<PaddleScript>().resetValues();
@@ -213,7 +213,6 @@ public class GameManager : Agent
         else
         {
             initGame();
-            haveParameters = false;
             stopped = false;
         }
     }
@@ -264,7 +263,7 @@ public class GameManager : Agent
     {
         round = 0;
         generatePlayerList();
-        this.latestObservations = new Observations(1, 1, 1, 1, 1,1, new float[4], new float[4]);
+        this.latestObservations = new Observations(1, 1, 1, 1, 1, 1, new float[4], new float[4]);
         paddle = GameObject.Find("Paddle");
         ball = GameObject.Find("Ball");
         stopped = true;
@@ -294,47 +293,27 @@ public class GameManager : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        Debug.Log("VECTOR ACTION 0:"+vectorAction[0]);
-        Debug.Log("VECTOR ACTION 1:"+vectorAction[1]);
-        Debug.Log("VECTOR ACTION 2:"+vectorAction[2]);
-        Debug.Log("VECTOR ACTION 3:"+vectorAction[3]);
-        Debug.Log("VECTOR ACTION 4:"+vectorAction[4]);
+        Debug.Log("VECTOR ACTION 0:" + vectorAction[0] + " VECTOR ACTION 1:" + vectorAction[1] + " VECTOR ACTION 2:" + vectorAction[2] + " VECTOR ACTION 3:" + vectorAction[3] + " VECTOR ACTION 4:" + vectorAction[4]);
 
-        roundCharacteristics[0] = (vectorAction[0] + 1)*2 + 1;
-        roundCharacteristics[1] = (vectorAction[1] + 1)*10 + 15;
-        roundCharacteristics[2] = (vectorAction[2] + 1)*5+2;
-        roundCharacteristics[3] = (vectorAction[3] + 1)*10 + 10;
-        roundCharacteristics[4] = (vectorAction[4] + 2)*2;
+        roundCharacteristics[0] = (vectorAction[0] + 1) * 2 + 1;
+        roundCharacteristics[1] = (vectorAction[1] + 1) * 10 + 15;
+        roundCharacteristics[2] = (vectorAction[2] + 1) * 5 + 2;
+        roundCharacteristics[3] = (vectorAction[3] + 1) * 10 + 10;
+        roundCharacteristics[4] = (vectorAction[4] + 2) * 2;
 
-
-        Debug.Log("Parameters received");
-        float[] decisions = vectorAction;
-        Debug.Log("Brick height: " + decisions[0] + " Paddle speed: " + decisions[1] + " Ball speed: " + decisions[2]);
-        brickHeight = decisions[0] + 2;
-        resetBricks(); // Delete old bricks and create new ones
-        paddle.GetComponent<PaddleScript>().PaddleSpeed = decisions[1] + 2;
-        ball.GetComponent<BallScript>().SetSpeed(decisions[2] + 2);
-        PlayerList[episodeNumber].SetActive(true);
-        PlayerList[episodeNumber].GetComponent<Personality>().Play();
-        round++;
-        Debug.Log("Starting the game round:" + round);
-        haveParameters = true;
-        requestingDecision = false;
-        /*
         brickHeight = roundCharacteristics[0];
         resetBricks(); // Delete old bricks and create new ones
-        paddle.SetActive(true);
-        ball.SetActive(true);
         paddle.GetComponent<PaddleScript>().PaddleSpeed =  roundCharacteristics[1];
         ball.GetComponent<BallScript>().SetSpeed(roundCharacteristics[2]);
         paddle.transform.localScale = new Vector3(roundCharacteristics[3] ,1f,4);
         ball.transform.localScale = new Vector3(roundCharacteristics[4] ,roundCharacteristics[4] ,roundCharacteristics[4] );
-        stopped = false;
-        PlayerList[episodeNumber - 1].SetActive(true);
-        PlayerList[episodeNumber - 1].GetComponent<Personality>().Play();
+        PlayerList[episodeNumber].SetActive(true);
+        PlayerList[episodeNumber].GetComponent<Personality>().Play();
         round++;
         Debug.Log("Starting the game");
-        */
+        haveParameters = true;
+        requestingDecision = false;
+        
     }
 
     public override void Heuristic(float[] actionsOut)
@@ -342,12 +321,13 @@ public class GameManager : Agent
     }
     public override void OnEpisodeBegin()
     {
-        if(firstDecision)
+        if (firstDecision)
         {
             firstDecision = false;
             return;
         }
         Debug.Log("episode begin number: " + episodeCount);
+        this.latestObservations = new Observations(1, 1, 1, 1, 1, 1, new float[4], new float[4]);
         episodeCount++;
         initGame(); // Find the ball and Reset the position of the ball and paddle and time
         SummonPlayer(); // Change the player
