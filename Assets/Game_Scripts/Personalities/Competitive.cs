@@ -9,8 +9,8 @@ public class Competitive : Personality
     {
     base.Start();    // call base class
 
-    minAPM = 350;
-    maxAPM = 450;
+    minAPM = 370;
+    maxAPM = 500;
    
     min_reaction_time = 0.005f; //difference between eye and hand
     max_reaction_time = 0.01f; //difference between eye and hand
@@ -65,12 +65,12 @@ public class Competitive : Personality
     }
 
       public override float[] GetVariables(){
-        float[] a = {1, APM, reaction_time, paddle_safety_distance};
+        float[] a = {2, APM, reaction_time, paddle_safety_distance};
         return a;
     }
 
     
-    public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win){
+    public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win){
         float content = 0;
         if(win == 1)
         content++;

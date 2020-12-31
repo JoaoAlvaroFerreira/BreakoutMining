@@ -24,9 +24,10 @@ public class GameManager : Agent
     public GameObject personalityNewbie;
     public GameObject personalityExperienced;
     public GameObject personalityUnpredictable;
+    public GameObject personalityEdgy;
 
     private float brickHeight;
-    private float[] roundCharacteristics = new float[3] { 4.5f, 25f, 10f };
+    private float[] roundCharacteristics = new float[5] { 4.5f, 25f, 10f, 0f, 0f };
 
     private int episodeNumber = -1;
     private int episodeCount = 0;
@@ -47,6 +48,7 @@ public class GameManager : Agent
         personalities.Add(personalityCompetitive);
         personalities.Add(personalityExperienced);
         personalities.Add(personalityUnpredictable);
+        personalities.Add(personalityEdgy);
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)
         {
@@ -58,10 +60,7 @@ public class GameManager : Agent
         foreach (GameObject p in PlayerList)
             DontDestroyOnLoad(p);
 
-        //register to csv ()
-        // test
-        // ML AGENTS HEREEEEEEEEEEEEE
-
+     
     }
 
 
@@ -168,9 +167,10 @@ public class GameManager : Agent
         SetReward(1);
         float paddleDistance = paddle.GetComponent<PaddleScript>().distanceRan;
         float ballHits = paddle.GetComponent<PaddleScript>().ballHits;
+        int ballBounces = ball.GetComponent<BallScript>().getBallBounces();
 
-        float[] playerVars = PlayerList[episodeNumber].GetComponent<Personality>().GetVariables();
-        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, time, bricksCount(), win);
+        float[] playerVars = PlayerList[episodeNumber - 1].GetComponent<Personality>().GetVariables();
+        float[] playerQED = PlayerList[episodeNumber - 1].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time, bricksCount(), win);
 
 
 
@@ -179,15 +179,15 @@ public class GameManager : Agent
 
         if (round == 1)
         {
-            File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed;time; paddle distance; ballHits; amount of bricks;win/lose;type of personality;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
+            File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed; paddle length; ball size; time; paddle distance; ballHits; ballBounces; amount of bricks;win/lose;type of personality;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
             File.AppendAllText(strFilePath, Environment.NewLine);
         }
         //session id, time, type of personality, amount of bricks,win/lose
 
 
         //float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, playerVars[0], bricksCount(), win, playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
-        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, paddleDistance, ballHits, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
-        this.latestObservations = new Observations(time, paddleDistance, ballHits, bricksCount(), win, playerVars, playerQED);
+        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2],roundCharacteristics[3], roundCharacteristics[4], time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
+        this.latestObservations = new Observations(time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars, playerQED);
         time = 0;
         paddle.GetComponent<PaddleScript>().resetValues();
         StringBuilder sbOutput = new StringBuilder();
@@ -237,16 +237,18 @@ public class GameManager : Agent
         public float time { get; set; }
         public float paddleDistance { get; set; }
         public float ballHits { get; set; }
+        public float ballBounces { get; set; }
         public int bricksCount { get; set; }
         public int win { get; set; }
         public float[] playerVars { get; set; }
         public float[] playerQED { get; set; }
 
-        public Observations(float time, float paddleDistance, float ballHits, int bricksCount, int win, float[] playerVars, float[] playerQED)
+        public Observations(float time, float paddleDistance, float ballHits, int ballBounces, int bricksCount, int win, float[] playerVars, float[] playerQED)
         {
             this.time = time;
             this.paddleDistance = paddleDistance;
             this.ballHits = ballHits;
+            this.ballBounces = ballBounces;
             this.bricksCount = bricksCount;
             this.win = win;
             this.playerVars = playerVars;
@@ -258,20 +260,11 @@ public class GameManager : Agent
 
 
 
-
-
-
-
-
-
-
-
-
     public override void Initialize()
     {
         round = 0;
         generatePlayerList();
-        this.latestObservations = new Observations(1, 1, 1, 1, 1, new float[4], new float[4]);
+        this.latestObservations = new Observations(1, 1, 1, 1, 1,1, new float[4], new float[4]);
         paddle = GameObject.Find("Paddle");
         ball = GameObject.Find("Ball");
         stopped = true;
@@ -286,6 +279,7 @@ public class GameManager : Agent
         sensor.AddObservation(this.latestObservations.time);
         sensor.AddObservation(this.latestObservations.paddleDistance);
         sensor.AddObservation(this.latestObservations.ballHits);
+        sensor.AddObservation(this.latestObservations.ballBounces);
         sensor.AddObservation(this.latestObservations.bricksCount);
         sensor.AddObservation(this.latestObservations.win);
         sensor.AddObservation(this.latestObservations.playerVars[0]);
@@ -300,6 +294,19 @@ public class GameManager : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
+        Debug.Log("VECTOR ACTION 0:"+vectorAction[0]);
+        Debug.Log("VECTOR ACTION 1:"+vectorAction[1]);
+        Debug.Log("VECTOR ACTION 2:"+vectorAction[2]);
+        Debug.Log("VECTOR ACTION 3:"+vectorAction[3]);
+        Debug.Log("VECTOR ACTION 4:"+vectorAction[4]);
+
+        roundCharacteristics[0] = (vectorAction[0] + 1)*2 + 1;
+        roundCharacteristics[1] = (vectorAction[1] + 1)*10 + 15;
+        roundCharacteristics[2] = (vectorAction[2] + 1)*5+2;
+        roundCharacteristics[3] = (vectorAction[3] + 1)*10 + 10;
+        roundCharacteristics[4] = (vectorAction[4] + 2)*2;
+
+
         Debug.Log("Parameters received");
         float[] decisions = vectorAction;
         Debug.Log("Brick height: " + decisions[0] + " Paddle speed: " + decisions[1] + " Ball speed: " + decisions[2]);
@@ -313,6 +320,21 @@ public class GameManager : Agent
         Debug.Log("Starting the game round:" + round);
         haveParameters = true;
         requestingDecision = false;
+        /*
+        brickHeight = roundCharacteristics[0];
+        resetBricks(); // Delete old bricks and create new ones
+        paddle.SetActive(true);
+        ball.SetActive(true);
+        paddle.GetComponent<PaddleScript>().PaddleSpeed =  roundCharacteristics[1];
+        ball.GetComponent<BallScript>().SetSpeed(roundCharacteristics[2]);
+        paddle.transform.localScale = new Vector3(roundCharacteristics[3] ,1f,4);
+        ball.transform.localScale = new Vector3(roundCharacteristics[4] ,roundCharacteristics[4] ,roundCharacteristics[4] );
+        stopped = false;
+        PlayerList[episodeNumber - 1].SetActive(true);
+        PlayerList[episodeNumber - 1].GetComponent<Personality>().Play();
+        round++;
+        Debug.Log("Starting the game");
+        */
     }
 
     public override void Heuristic(float[] actionsOut)

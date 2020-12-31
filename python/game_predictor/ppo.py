@@ -1,4 +1,5 @@
 import torch
+from torch._C import dtype
 import torch.nn as nn
 from torch.distributions import MultivariateNormal
 import gym
@@ -147,7 +148,7 @@ class PPO:
 
             # take gradient step
             self.optimizer.zero_grad()
-            loss.mean().backward()
+            # loss.backward() It's giving errors
             self.optimizer.step()
 
         # Copy new weights into old policy:

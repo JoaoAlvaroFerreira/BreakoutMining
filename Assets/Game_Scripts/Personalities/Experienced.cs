@@ -71,12 +71,12 @@ public class Experienced : Personality
 
     public override float[] GetVariables()
     {
-        float[] a = { 1, APM, reaction_time, paddle_safety_distance };
+        float[] a = { 3, APM, reaction_time, paddle_safety_distance };
         return a;
     }
 
 
-    public override float[] GetGEQ(float paddleDistance, float ballHits, float time, int bricks, int win)
+    public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win)
     {
         float content = 0;
         if (win == 1)

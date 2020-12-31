@@ -10,9 +10,9 @@ def model_train(model_name, csv_path):
     }
 
     trainer = train_switcher.get(model_name, knn_train)
-    X_train, y_train, X_test, y_test = data_preparation_train(csv_path)
+    X_train, y_train = data_preparation_train(csv_path)
 
-    return trainer(X_train, y_train, X_test, y_test)
+    return trainer(X_train, y_train)
 
 
 def model_predict(model_name, model, csv_path):
@@ -22,6 +22,6 @@ def model_predict(model_name, model, csv_path):
     }
 
     predictor = predict_switcher.get(model_name, knn_predict)
-    X_pred = data_preparation_predict(csv_path)
+    X_test, y_test = data_preparation_predict(csv_path)
 
-    return predictor(X_pred, model)
+    return predictor(X_test, y_test, model)
