@@ -20,10 +20,11 @@ train_env = load_environment()
 
 # Training Stage
 print("Start Training Stage")
-train_env.reset()
 
-rl = PPO(MlpPolicy, train_env, verbose=1, n_steps=10)
-rl.learn(total_timesteps=train_episodes)
+
+rl = PPO(MlpPolicy, train_env, verbose=1, n_steps=1)
+train_env.reset()
+rl.learn(total_timesteps=1)
 train_env.close()
 print("Closed")
 

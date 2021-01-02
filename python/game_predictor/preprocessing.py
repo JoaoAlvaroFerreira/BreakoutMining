@@ -3,15 +3,17 @@ import numpy as np
 import itertools
 
 from pathlib import Path
+from sklearn.model_selection import train_test_split
 
 radius = 10
+min_satisfaction = 13
 
 
 def read_dataset(dataset_name):
     folder_path = Path(".")
 
     file_path = str(folder_path / dataset_name)
-    dataset = pd.read_csv(file_path, sep=";", low_memory=False)
+    dataset = pd.read_csv(file_path, sep=";", low_memory=False).dropna()
 
     return dataset
 
@@ -28,14 +30,14 @@ def filter_satisfaction(dataset):
 
         dist = np.linalg.norm(row_i - row_j)
 
-        if (row_i['satisfaction'] < 13):
+        if (row_i['satisfaction'] < min_satisfaction):
             filtered_dataset = filtered_dataset.drop(i)
-        elif (dist <= radius and row_j['satisfaction'] < 13):
+        elif (dist <= radius and row_j['satisfaction'] < min_satisfaction):
             filtered_dataset = filtered_dataset.drop(i)
 
-        if (row_j['satisfaction'] < 13):
+        if (row_j['satisfaction'] < min_satisfaction):
             filtered_dataset = filtered_dataset.drop(j)
-        elif (dist <= radius and row_i['satisfaction'] < 13):
+        elif (dist <= radius and row_i['satisfaction'] < min_satisfaction):
             filtered_dataset = filtered_dataset.drop(j)
 
     return filtered_dataset
@@ -57,18 +59,22 @@ def labels_selector(dataset):
 def data_preparation_train(csv_path):
     dataset = read_dataset(csv_path)
 
-    # dataset = filter_satisfaction(dataset)
+    filtered_dataset = filter_satisfaction(dataset)
 
-    X_train = features_selector(dataset)
-    y_train = labels_selector(dataset)
+    train, test = train_test_split(
+        filtered_dataset, test_size=0.25, random_state=42, shuffle=True)
 
-    return X_train, y_train
+    X_train = features_selector(train)
+    y_train = labels_selector(train)
+    X_test = features_selector(test)
+    y_test = labels_selector(test)
+
+    return X_train, y_train, X_test, y_test
 
 
 def data_preparation_predict(csv_path):
     dataset = read_dataset(csv_path)
 
-    X_test = features_selector(dataset)
-    y_test = labels_selector(dataset)
+    X_pred = features_selector(dataset)
 
-    return X_test, y_test
+    return X_pred

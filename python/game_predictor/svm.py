@@ -13,14 +13,17 @@ def svm_train(X_train, y_train, X_test, y_test):
     svregressor = MultiOutputRegressor(SVR(gamma='auto'))
     svregressor.fit(X_train, y_train)
 
+    y_pred = svregressor.predict(X_test)
+
+    y_pred = svregressor.predict(X_test)
+
+    print(f"Error: {sqrt(mean_squared_error(y_test, y_pred))}")
     print(f"Score: {svregressor.score(X_train, y_train)}")
 
     return svregressor
 
 
-def svm_predict(X_test, y_test, model):
-    y_pred = model.predict(X_test)
-
-    print(f"Error: {sqrt(mean_squared_error(y_test, y_pred))}")
+def svm_predict(X_pred, model):
+    y_pred = model.predict(X_pred)
 
     return y_pred

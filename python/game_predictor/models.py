@@ -1,3 +1,5 @@
+import pandas as pd
+
 from game_predictor.preprocessing import data_preparation_train, data_preparation_predict
 from game_predictor.knn import knn_train, knn_predict
 from game_predictor.svm import svm_train, svm_predict
@@ -10,9 +12,9 @@ def model_train(model_name, csv_path):
     }
 
     trainer = train_switcher.get(model_name, knn_train)
-    X_train, y_train = data_preparation_train(csv_path)
+    X_train, y_train, X_test, y_test = data_preparation_train(csv_path)
 
-    return trainer(X_train, y_train)
+    return trainer(X_train, y_train, X_test, y_test)
 
 
 def model_predict(model_name, model, csv_path):
@@ -22,6 +24,11 @@ def model_predict(model_name, model, csv_path):
     }
 
     predictor = predict_switcher.get(model_name, knn_predict)
-    X_test, y_test = data_preparation_predict(csv_path)
+    X_pred = data_preparation_predict(csv_path)
 
-    return predictor(X_test, y_test, model)
+    predictions = predictor(X_pred, model)
+
+    dataset = pd.DataFrame(predictions,
+                           columns=['brick height', 'paddle speed', 'ball speed'])
+
+    return dataset
