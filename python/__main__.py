@@ -9,7 +9,7 @@ from utils.environment import load_environment
 from game_predictor import GamePredictor
 
 # Control Variables
-episodes = 10
+episodes = 2 * 10
 test_ratio = 0.25
 
 train_episodes = ceil(episodes * (1 - test_ratio))
@@ -22,7 +22,7 @@ train_env = load_environment()
 print("Start Training Stage")
 train_env.reset()
 
-rl = PPO(MlpPolicy, train_env, verbose=1)
+rl = PPO(MlpPolicy, train_env, verbose=1, n_steps=10)
 rl.learn(total_timesteps=train_episodes)
 train_env.close()
 print("Closed")
@@ -42,7 +42,7 @@ test_env = load_environment()
 print("### Starting Testing Simulations")
 
 obs = test_env.reset()
-for i in test_episodes:
+for i in range(test_episodes):
     action, _states = rl.predict(obs)
     obs, rewards, dones, info = test_env.step(action)
     test_env.render()

@@ -164,13 +164,13 @@ public class GameManager : Agent
         //restart scene with new player, for now just restart
 
         //float satisfaction = PlayerList[round-1].GetComponent<Personality>().CalculateSatisfaction(win, time);
-        SetReward(1);
         float paddleDistance = paddle.GetComponent<PaddleScript>().distanceRan;
         float ballHits = paddle.GetComponent<PaddleScript>().ballHits;
         int ballBounces = ball.GetComponent<BallScript>().getBallBounces();
 
         float[] playerVars = PlayerList[episodeNumber].GetComponent<Personality>().GetVariables();
         float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time, bricksCount(), win);
+        SetReward(playerQED[4]);
 
 
 
