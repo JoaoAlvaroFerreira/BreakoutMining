@@ -176,12 +176,6 @@ public class GameManager : Agent
 
 
         string strFilePath = @"./data.csv";
-
-        if (round == 1)
-        {
-            File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed; paddle length; ball size; time; paddle distance; ballHits; ballBounces; amount of bricks;win/lose;type of personality;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
-            File.AppendAllText(strFilePath, Environment.NewLine);
-        }
         //session id, time, type of personality, amount of bricks,win/lose
 
 
@@ -261,6 +255,10 @@ public class GameManager : Agent
 
     public override void Initialize()
     {
+        string strFilePath = @"./data.csv";
+        File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed; paddle length; ball size; time; paddle distance; ballHits; ballBounces; amount of bricks;win/lose;type of personality;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
+        File.AppendAllText(strFilePath, Environment.NewLine);
+
         round = 0;
         generatePlayerList();
         this.latestObservations = new Observations(1, 1, 1, 1, 1, 1, new float[4], new float[4]);
@@ -303,17 +301,17 @@ public class GameManager : Agent
 
         brickHeight = roundCharacteristics[0];
         resetBricks(); // Delete old bricks and create new ones
-        paddle.GetComponent<PaddleScript>().PaddleSpeed =  roundCharacteristics[1];
+        paddle.GetComponent<PaddleScript>().PaddleSpeed = roundCharacteristics[1];
         ball.GetComponent<BallScript>().SetSpeed(roundCharacteristics[2]);
-        paddle.transform.localScale = new Vector3(roundCharacteristics[3] ,1f,4);
-        ball.transform.localScale = new Vector3(roundCharacteristics[4] ,roundCharacteristics[4] ,roundCharacteristics[4] );
+        paddle.transform.localScale = new Vector3(roundCharacteristics[3], 1f, 4);
+        ball.transform.localScale = new Vector3(roundCharacteristics[4], roundCharacteristics[4], roundCharacteristics[4]);
         PlayerList[episodeNumber].SetActive(true);
         PlayerList[episodeNumber].GetComponent<Personality>().Play();
         round++;
         Debug.Log("Starting the game");
         haveParameters = true;
         requestingDecision = false;
-        
+
     }
 
     public override void Heuristic(float[] actionsOut)
