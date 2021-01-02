@@ -31,4 +31,6 @@ def model_predict(model_name, model, csv_path):
     dataset = pd.DataFrame(predictions,
                            columns=['brick height', 'paddle speed', 'ball speed'])
 
+    dataset.to_csv(f"{model_name}_results.csv", index=False)
+
     return dataset
