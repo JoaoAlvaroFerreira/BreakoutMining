@@ -25,7 +25,7 @@ print("Start Training Stage")
 
 rl = PPO(MlpPolicy, train_env, verbose=1, n_steps=10)
 train_env.reset()
-rl.learn(total_timesteps=1)
+rl.learn(total_timesteps=episodes)
 rl.save("breakout_model")
 train_env.close()
 print("Closed")
