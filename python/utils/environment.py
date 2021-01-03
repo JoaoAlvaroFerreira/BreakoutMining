@@ -4,6 +4,6 @@ from gym_unity.envs import UnityToGymWrapper
 
 def load_environment():
     unity_timeout = 1000000
-    unity_env = UnityEnvironment(file_name="./build/BreakoutMining", seed=1,
+    unity_env = UnityEnvironment(file_name=None, seed=1,
                                  timeout_wait=unity_timeout, side_channels=[], no_graphics=True)
     return UnityToGymWrapper(unity_env)

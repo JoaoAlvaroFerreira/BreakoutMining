@@ -27,6 +27,8 @@ public class Personality: MonoBehaviour{
         
     }
 
+    
+
     public float getAPM(){
         return APM;
     }
@@ -75,7 +77,7 @@ public class Personality: MonoBehaviour{
         
     }
 
-    IEnumerator takeAction(){
+    protected IEnumerator takeAction(){
         
         int choice = MoveHeuristic();
         
@@ -113,7 +115,7 @@ public class Personality: MonoBehaviour{
     }
 
     public virtual int MoveHeuristic(){
-        //VERY BASIC TEST VERSION, DO BETTER LATER
+       
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;
         float distanceX = paddleX - ballX;

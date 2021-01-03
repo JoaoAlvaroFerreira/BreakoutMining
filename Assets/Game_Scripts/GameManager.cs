@@ -20,11 +20,12 @@ public class GameManager : Agent
 
     public int amountOfPlayersPerRound;
     public static List<GameObject> PlayerList;
-    public GameObject personalityCompetitive; //TEMP, will be personality list later
+    public GameObject personalityCompetitive; 
     public GameObject personalityNewbie;
     public GameObject personalityExperienced;
     public GameObject personalityUnpredictable;
     public GameObject personalityEdgy;
+    public GameObject personalityFastLearner;
 
     private float brickHeight;
     private float[] roundCharacteristics = new float[5] { 4.5f, 25f, 10f, 0f, 0f };
@@ -44,6 +45,7 @@ public class GameManager : Agent
     {
         List<GameObject> personalities = new List<GameObject>();
         PlayerList = new List<GameObject>();
+        personalities.Add(personalityFastLearner);
         personalities.Add(personalityNewbie);
         personalities.Add(personalityCompetitive);
         personalities.Add(personalityExperienced);

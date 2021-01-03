@@ -48,8 +48,7 @@ public class Edgy : Personality
 
         else return 2;
         
-        
-        return 0;
+    
         
     }
 
@@ -84,7 +83,7 @@ public class Edgy : Personality
         content++;
         if(bricks < 20)
         content++;
-        if(bricks < 10)
+        if(ballHits *2 < ballBounces)
         content++;
         if(ballHits*1.5 < (30-bricks))
         content++;
@@ -97,7 +96,7 @@ public class Edgy : Personality
         skillful++;
         if(time/paddleDistance > 10)
         skillful++;
-        if(time/paddleDistance > 16)
+        if(ballHits *2.5 < ballBounces)
         skillful++;
         if(bricks<15)
         skillful++;
@@ -106,7 +105,7 @@ public class Edgy : Personality
         float occupied = 0;
         if(time/paddleDistance < 13)
         occupied++;
-        if(time/paddleDistance < 7)
+        if(ballHits *2 < ballBounces)
         occupied++;
         if(time/ballHits < 3)
         occupied++;
@@ -123,11 +122,11 @@ public class Edgy : Personality
         hard--;
         if(bricks > 17)
         hard--;
-        if(bricks > 7)
+        if(ballHits *3 > ballBounces)
         hard--;
 
         //overall enjoyment
-        float satisfaction = (float)(content *.75 + skillful*1.5 + occupied*.5 + hard*1.25);
+        float satisfaction = (float)(content + skillful*1.5 + occupied*.5 + hard);
 
         float[] a = {content, skillful, occupied, hard, satisfaction};
 

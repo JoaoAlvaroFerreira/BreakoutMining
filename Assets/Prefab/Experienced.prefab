@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7559289344187089755}
-  - component: {fileID: -5099023137235728303}
+  - component: {fileID: 3801229050135507711}
   m_Layer: 0
-  m_Name: Competitive
+  m_Name: Experienced
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-5099023137235728303
+--- !u!114 &3801229050135507711
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,8 +40,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7134447620383055915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52f33996e25cd0040b6da3b1bbb8bde6, type: 3}
+  m_Script: {fileID: 11500000, guid: ac069ed2c46371f43a7be32f58910da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   paddle: {fileID: 0}
   ball: {fileID: 0}
+  APM: 500
+  minAPM: 200
+  maxAPM: 300
+  reaction_time: 0
+  min_reaction_time: 0.02
+  max_reaction_time: 0.03
+  paddle_safety_distance: 1
+  min_paddle_safety_distance: 0.8
+  max_paddle_safety_distance: 1.1
