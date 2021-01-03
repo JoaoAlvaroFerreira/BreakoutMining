@@ -45,12 +45,14 @@ public class GameManager : Agent
     {
         List<GameObject> personalities = new List<GameObject>();
         PlayerList = new List<GameObject>();
-        personalities.Add(personalityFastLearner);
+
         personalities.Add(personalityNewbie);
         personalities.Add(personalityCompetitive);
-        personalities.Add(personalityExperienced);
+        personalities.Add(personalityExperienced);              
         personalities.Add(personalityUnpredictable);
         personalities.Add(personalityEdgy);
+        personalities.Add(personalityFastLearner);
+
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)
         {

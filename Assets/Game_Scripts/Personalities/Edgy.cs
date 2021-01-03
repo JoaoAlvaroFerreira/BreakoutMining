@@ -11,8 +11,8 @@ public class Edgy : Personality
     {
     base.Start();    // call base class
 
-    minAPM = 360;
-    maxAPM = 490;
+    minAPM = 150;
+    maxAPM = 250;
    
     min_reaction_time = 0.005f; //difference between eye and hand
     max_reaction_time = 0.01f; //difference between eye and hand
@@ -30,17 +30,17 @@ public class Edgy : Personality
         float paddleX = paddle.transform.position.x;
         float ballX = ball.transform.position.x;
 
-        float pointA = ballX + paddle_safety_distance/2;
-        float pointB = ballX + paddle_safety_distance/2;
+        float pointA = paddleX - paddle_safety_distance/2;
+        float pointB = paddleX + paddle_safety_distance/2;
         
         if(ball.GetComponent<Rigidbody2D>().velocity.y < 0)
         ballX = calcTrajectory();
 
         float distanceX = paddleX - ballX;
-        float distanceA = paddleX - pointA;
-        float distanceB = paddleX - pointB;
+        float distanceA = pointA - ballX;
+        float distanceB = pointB - ballX;
 
-        if(Math.Abs(distanceA) <= paddle_safety_distance || Math.Abs(distanceB) <= paddle_safety_distance)
+        if(Math.Abs(distanceA) <= paddle_safety_distance/2 || Math.Abs(distanceB) <= paddle_safety_distance/2)
             return 0;
         
         else if(Math.Abs(distanceA) <= Math.Abs(distanceB))
