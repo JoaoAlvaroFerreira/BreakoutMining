@@ -7,10 +7,12 @@ public class BallScript : MonoBehaviour
     Rigidbody2D rb;
     private bool hitFloor = false;
     private int bounces = 0;
+    private int vertCheck = 0;
     // Start is called before the first frame update
     void Start()
     {
         bounces = 0;
+        vertCheck = 0;
     }
 
     public void SetSpeed(float x){
@@ -28,8 +30,15 @@ public class BallScript : MonoBehaviour
         bounces++;
 
 
+        if(rb.velocity.x < 1 && rb.velocity.x > -1)
+        vertCheck++;
+        else vertCheck = 0;
+
         if(rb.velocity.y < 1 && rb.velocity.y > -1)
         rb.velocity = new Vector2(rb.velocity.x, 5);
+
+        if(vertCheck == 6)
+        rb.velocity = new Vector2(5, rb.velocity.x);
     
 
         if(col.gameObject.name == "Floor")

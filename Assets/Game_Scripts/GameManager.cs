@@ -20,11 +20,13 @@ public class GameManager : Agent
 
     public int amountOfPlayersPerRound;
     public static List<GameObject> PlayerList;
-    public GameObject personalityCompetitive; //TEMP, will be personality list later
+    public GameObject personalityCompetitive; 
     public GameObject personalityNewbie;
     public GameObject personalityExperienced;
     public GameObject personalityUnpredictable;
     public GameObject personalityEdgy;
+    public GameObject personalityFastLearner;
+    public GameObject personalityGiftedNewbie;
 
     private float brickHeight;
     private float[] roundCharacteristics = new float[5] { 4.5f, 25f, 10f, 0f, 0f };
@@ -44,11 +46,15 @@ public class GameManager : Agent
     {
         List<GameObject> personalities = new List<GameObject>();
         PlayerList = new List<GameObject>();
+
         personalities.Add(personalityNewbie);
         personalities.Add(personalityCompetitive);
         personalities.Add(personalityExperienced);
-        personalities.Add(personalityUnpredictable);
+        personalities.Add(personalityGiftedNewbie);              
         personalities.Add(personalityEdgy);
+        personalities.Add(personalityFastLearner);
+
+
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)
         {
@@ -169,7 +175,7 @@ public class GameManager : Agent
         int ballBounces = ball.GetComponent<BallScript>().getBallBounces();
 
         float[] playerVars = PlayerList[episodeNumber].GetComponent<Personality>().GetVariables();
-        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time, bricksCount(), win);
+        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time/10, bricksCount(), win);
         SetReward(playerQED[4]);
 
 
@@ -180,13 +186,14 @@ public class GameManager : Agent
 
 
         //float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, playerVars[0], bricksCount(), win, playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
-        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], roundCharacteristics[3], roundCharacteristics[4], time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
-        this.latestObservations = new Observations(time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars, playerQED);
+        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], roundCharacteristics[3], roundCharacteristics[4], time/10, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
+        this.latestObservations = new Observations(time/10, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars, playerQED);
+        Debug.Log("PERSONALITY TYPE: "+ playerVars[0]+ " WIN: "+ win+" TIME: "+ time/10 + " Satisfaction: "+ playerQED[4]);
         time = 0;
         paddle.GetComponent<PaddleScript>().resetValues();
         StringBuilder sbOutput = new StringBuilder();
         sbOutput.AppendLine(string.Join(";", outputarray));
-        Debug.Log(sbOutput);
+
 
         // Create and write the csv file
         // File.WriteAllText(strFilePath, sbOutput.ToString());
@@ -256,7 +263,7 @@ public class GameManager : Agent
     public override void Initialize()
     {
         string strFilePath = @"./data.csv";
-        File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed; paddle length; ball size; time; paddle distance; ballHits; ballBounces; amount of bricks;win/lose;type of personality;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
+        File.WriteAllText(strFilePath, "session id;brick height;paddle speed;ball speed;paddle length;ball size;time;paddle distance;ballHits;ballBounces;amount of bricks;win/lose;type of personality;playerAPM;playerReactionTime;playerPaddleSafety;GEQ - content;GEQ - skillful;GEQ - occupied;GEQ - difficulty;satisfaction"); //COMMENT THIS IF YOU JUST WANT TO APPEND - last 5 are player attributes
         File.AppendAllText(strFilePath, Environment.NewLine);
 
         round = 0;
@@ -268,6 +275,8 @@ public class GameManager : Agent
         requestingDecision = false;
         haveParameters = false;
         RequestDecision();
+
+        Time.timeScale = 10.0f;
     }
 
 
@@ -291,8 +300,6 @@ public class GameManager : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        Debug.Log("VECTOR ACTION 0:" + vectorAction[0] + " VECTOR ACTION 1:" + vectorAction[1] + " VECTOR ACTION 2:" + vectorAction[2] + " VECTOR ACTION 3:" + vectorAction[3] + " VECTOR ACTION 4:" + vectorAction[4]);
-
         roundCharacteristics[0] = (vectorAction[0] + 1) * 2 + 1;
         roundCharacteristics[1] = (vectorAction[1] + 1) * 10 + 15;
         roundCharacteristics[2] = (vectorAction[2] + 1) * 5 + 2;

@@ -1,5 +1,6 @@
 from math import ceil, floor
 from shutil import copyfile
+import numpy as np
 
 from stable_baselines3 import PPO
 from stable_baselines3.ppo import MlpPolicy
@@ -9,7 +10,7 @@ from utils.environment import load_environment
 from game_predictor import GamePredictor
 
 # Control Variables
-episodes = 2 * 10
+episodes = 30 * 10
 test_ratio = 0.25
 
 train_episodes = ceil(episodes * (1 - test_ratio))
@@ -22,9 +23,10 @@ train_env = load_environment()
 print("Start Training Stage")
 
 
-rl = PPO(MlpPolicy, train_env, verbose=1, n_steps=1)
+rl = PPO(MlpPolicy, train_env, verbose=1, n_steps=10)
 train_env.reset()
-rl.learn(total_timesteps=1)
+rl.learn(total_timesteps=episodes)
+rl.save("breakout_model")
 train_env.close()
 print("Closed")
 
@@ -46,10 +48,14 @@ test_env = load_environment()
 print("### Starting Testing Simulations")
 
 obs = test_env.reset()
+dones = False
 for i in range(test_episodes):
     action, _states = rl.predict(obs)
-    obs, rewards, dones, info = test_env.step(action)
-    test_env.render()
+    if dones:
+        obs = test_env.reset()
+        dones = False
+    else:
+        obs, rewards, dones, info = test_env.step(action)
 
 test_env.close()
 
