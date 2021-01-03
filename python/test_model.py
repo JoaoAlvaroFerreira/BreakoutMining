@@ -5,10 +5,14 @@ from game_predictor import GamePredictor
 copyfile('./data.csv', './data_train.csv')
 copyfile('./data.csv', './data_test.csv')
 
-gp = GamePredictor("knn")
+mp = GamePredictor("rf", single_output=False)
+gp = GamePredictor("rf", single_output=True)
 
+mp.train("data_train.csv")
 gp.train("data_train.csv")
 
-results = gp.predict("data_test.csv")
+mr = mp.predict("data_test.csv")
+gr = gp.predict("data_test.csv")
 
-print(results)
+print(mr)
+print(gr)

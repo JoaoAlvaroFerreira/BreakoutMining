@@ -6,7 +6,7 @@ from pathlib import Path
 from sklearn.model_selection import train_test_split
 
 radius = 10
-min_satisfaction = 13
+min_satisfaction = 16
 
 
 def read_dataset(dataset_name):
@@ -51,7 +51,8 @@ def features_selector(dataset):
 
 
 def labels_selector(dataset):
-    labels_features = dataset[["brick height", "paddle speed", "ball speed"]]
+    labels_features = dataset[[
+        "brick height", "paddle speed", "ball speed", "paddle length", "ball size"]]
 
     return labels_features
 

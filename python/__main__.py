@@ -30,8 +30,11 @@ print("Closed")
 
 copyfile('./data.csv', './data_train.csv')
 
-ml = GamePredictor('knn')
-ml.train("data_train.csv")
+multi_output = GamePredictor('rf', single_output=False)
+single_output = GamePredictor('rf', single_output=True)
+
+multi_output.train("data_train.csv")
+single_output.train("data_train.csv")
 
 print("### Models Finished Training")
 
@@ -53,8 +56,13 @@ test_env.close()
 print("### Testing Simulations Finished")
 
 copyfile('./data.csv', './data_test.csv')
-results = ml.predict("data_test.csv")
+multi_output_results = multi_output.predict("data_test.csv")
+single_output_results = single_output.predict("data_test.csv")
 
-print(results)
+print("### Multi-Output Results")
+print(multi_output_results)
+
+print("### Single-Output Results")
+print(single_output_results)
 
 print("### Models Finished Testing")
