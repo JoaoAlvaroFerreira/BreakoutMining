@@ -26,6 +26,7 @@ public class GameManager : Agent
     public GameObject personalityUnpredictable;
     public GameObject personalityEdgy;
     public GameObject personalityFastLearner;
+    public GameObject personalityGiftedNewbie;
 
     private float brickHeight;
     private float[] roundCharacteristics = new float[5] { 4.5f, 25f, 10f, 0f, 0f };
@@ -52,6 +53,7 @@ public class GameManager : Agent
         personalities.Add(personalityUnpredictable);
         personalities.Add(personalityEdgy);
         personalities.Add(personalityFastLearner);
+        personalities.Add(personalityGiftedNewbie);
 
 
         for (int i = 0; i < amountOfPlayersPerRound; i++)

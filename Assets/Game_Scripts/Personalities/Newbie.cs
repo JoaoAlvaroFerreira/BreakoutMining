@@ -55,7 +55,7 @@ public class Newbie : Personality
         float content = 0;
         if(win == 1)
         content++;
-        if(time > 40 && time < 180)
+        if(time < 120)
         content++;
         if(bricks < 20)
         content++;
@@ -72,7 +72,7 @@ public class Newbie : Personality
         skillful++;
         if(time/paddleDistance > 10)
         skillful++;
-        if(time/paddleDistance > 16)
+        if(time < 40)
         skillful++;
         if(bricks<15)
         skillful++;
@@ -81,7 +81,7 @@ public class Newbie : Personality
         float occupied = 0;
         if(time/paddleDistance < 14)
         occupied++;
-        if(time/paddleDistance < 8)
+        if(time < 50)
         occupied++;
         if(time/ballHits < 3)
         occupied++;

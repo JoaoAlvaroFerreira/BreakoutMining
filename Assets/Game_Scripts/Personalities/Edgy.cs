@@ -79,7 +79,7 @@ public class Edgy : Personality
         float content = 0;
         if(win == 1)
         content++;
-        if(time > 40 && time < 130)
+        if(time < 130)
         content++;
         if(bricks < 20)
         content++;
