@@ -45,7 +45,7 @@ public class GiftedNewbie : Personality
     }
 
       public override float[] GetVariables(){
-        float[] a = {1, APM, reaction_time, paddle_safety_distance};
+        float[] a = {4, APM, reaction_time, paddle_safety_distance};
         return a;
     }
 

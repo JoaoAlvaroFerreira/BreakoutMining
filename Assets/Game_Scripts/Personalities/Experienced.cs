@@ -9,8 +9,8 @@ public class Experienced : Personality
     {
     base.Start();    // call base class
 
-    minAPM = 370;
-    maxAPM = 500;
+    minAPM = 150;
+    maxAPM = 250;
    
     min_reaction_time = 0.03f; //difference between eye and hand
     max_reaction_time = 0.04f; //difference between eye and hand
