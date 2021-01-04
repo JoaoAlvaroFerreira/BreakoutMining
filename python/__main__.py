@@ -6,6 +6,7 @@ from stable_baselines3.ppo import MlpPolicy
 
 from utils.environment import load_environment
 from utils.database import read_dataset, filter_satisfaction
+from utils.graphs import plot_satisfactions
 from utils.evaluation import eval
 
 from game_predictor import GamePredictor
@@ -37,6 +38,7 @@ multi_output = GamePredictor('rf', single_output=False)
 single_output = GamePredictor('rf', single_output=True)
 
 dataset = read_dataset("data_train.csv")
+plot_satisfactions("train", dataset)
 filtered_dataset = filter_satisfaction(dataset)
 
 multi_output.train(filtered_dataset)
@@ -68,6 +70,7 @@ print("### Testing Simulations Finished")
 copyfile('./data.csv', './data_test.csv')
 
 test_dataset = read_dataset("data_test.csv")
+plot_satisfactions("test", test_dataset)
 
 multi_output_results = multi_output.predict(test_dataset)
 single_output_results = single_output.predict(test_dataset)
