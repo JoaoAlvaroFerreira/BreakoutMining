@@ -6,7 +6,7 @@ from pathlib import Path
 from sklearn.model_selection import train_test_split
 
 radius = 10
-min_satisfaction = 16
+min_satisfaction = 14
 
 
 def read_dataset(dataset_name):

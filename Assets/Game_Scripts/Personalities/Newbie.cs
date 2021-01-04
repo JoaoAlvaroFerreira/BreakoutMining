@@ -51,52 +51,53 @@ public class Newbie : Personality
 
     
     public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win){
-        //I felt content
+      //I felt content
         float content = 0;
-        if(win == 1)
+        if(time > 20)
         content++;
-        if(time < 120)
+        if(time > 10)
+        content++;
+        if(time > 30)
+        content++;
+        if(time < 150)
         content++;
         if(bricks < 20)
         content++;
-        if(bricks < 10)
-        content++;
-        if(ballHits*2 < (30-bricks))
-        content++;
+      
         
         //I felt skilful
         float skillful = 0;
         if(ballHits*2 < (30-bricks))
         skillful++;
+        if(ballHits*1.5 < (30-bricks))
+        skillful++;
+        if(time/paddleDistance > 0.1f)
+        skillful++;
         if(win == 1)
         skillful++;
-        if(time/paddleDistance > 10)
-        skillful++;
-        if(time < 40)
-        skillful++;
-        if(bricks<15)
+        if(bricks<20)
         skillful++;
 
         //I was fully occupied with the game
         float occupied = 0;
-        if(time/paddleDistance < 14)
+        if(paddleDistance/ballHits < 70)
         occupied++;
-        if(time < 50)
+        if(time > 15)
         occupied++;
-        if(time/ballHits < 3)
+        if(time/ballHits < 2.5f)
         occupied++;
         if(ballHits > 3)
         occupied++;
-        if(ballHits > 8)
+        if(ballBounces > 8)
         occupied++;
 
         //I thought it was hard
         float hard = 5;
-        if(win == 0)
+        if(win == 1)
         hard--;
-        if(time/ballHits > 4)
+        if(time/ballHits > 4.5f)
         hard--;
-        if(bricks > 20)
+        if(time < 5)
         hard--;
         if(bricks > 25)
         hard--;

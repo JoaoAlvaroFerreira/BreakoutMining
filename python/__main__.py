@@ -10,7 +10,7 @@ from utils.environment import load_environment
 from game_predictor import GamePredictor
 
 # Control Variables
-episodes = 30 * 10
+episodes = 7000
 test_ratio = 0.25
 
 train_episodes = ceil(episodes * (1 - test_ratio))

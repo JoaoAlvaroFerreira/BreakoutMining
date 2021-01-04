@@ -74,11 +74,11 @@ public class Competitive : Personality
         float content = 0;
         if(win == 1)
         content++;
-        if(time < 130)
+        if(time < 120)
         content++;
         if(bricks < 20)
         content++;
-        if(ballHits *2 < ballBounces)
+        if(bricks < 15)
         content++;
         if(ballHits*1.5 < (30-bricks))
         content++;
@@ -89,35 +89,37 @@ public class Competitive : Personality
         skillful++;
         if(win == 1)
         skillful++;
-        if(ballHits *2.5 < ballBounces)
+        if(ballHits *2 < ballBounces)
         skillful++;
-        if(time/paddleDistance > 15)
+        if(paddleDistance/ballHits < 50)
         skillful++;
-        if(bricks<15)
-        skillful++;
+        if(time/paddleDistance < 0.1f)
+        content++;
 
         //I was fully occupied with the game
         float occupied = 0;
-        if(time/paddleDistance < 13)
+        if(time/paddleDistance < 0.1f)
         occupied++;
-        if(time < 40)
+        if(time > 15)
         occupied++;
-        if(time/ballHits < 3)
+        if(time/ballHits < 4f)
         occupied++;
-        if(ballHits > 8)
+        if(ballHits *2f < ballBounces)
         occupied++;
-        if(ballHits > 15)
+        if(ballHits *2.5 < ballBounces)
         occupied++;
 
         //I thought it was hard
         float hard = 5;
         if(win == 0)
         hard--;
-        if(time/ballHits > 3.5)
+        if(time/ballHits > 4)
         hard--;
         if(bricks > 17)
         hard--;
-        if(bricks > 7)
+        if(time<5)
+        hard--;
+        if(ballHits *3 > ballBounces)
         hard--;
 
         //overall enjoyment

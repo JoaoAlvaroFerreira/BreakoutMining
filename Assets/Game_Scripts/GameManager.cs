@@ -175,7 +175,7 @@ public class GameManager : Agent
         int ballBounces = ball.GetComponent<BallScript>().getBallBounces();
 
         float[] playerVars = PlayerList[episodeNumber].GetComponent<Personality>().GetVariables();
-        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time/10, bricksCount(), win);
+        float[] playerQED = PlayerList[episodeNumber].GetComponent<Personality>().GetGEQ(paddleDistance, ballHits, ballBounces, time, bricksCount(), win);
         SetReward(playerQED[4]);
 
 
@@ -186,7 +186,7 @@ public class GameManager : Agent
 
 
         //float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], time, playerVars[0], bricksCount(), win, playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
-        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], roundCharacteristics[3], roundCharacteristics[4], time/10, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
+        float[] outputarray = new float[] { round, roundCharacteristics[0], roundCharacteristics[1], roundCharacteristics[2], roundCharacteristics[3], roundCharacteristics[4], time, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars[0], playerVars[1], playerVars[2], playerVars[3], playerQED[0], playerQED[1], playerQED[2], playerQED[3], playerQED[4] }; //valores das colunas
         this.latestObservations = new Observations(time/10, paddleDistance, ballHits, ballBounces, bricksCount(), win, playerVars, playerQED);
         Debug.Log("PERSONALITY TYPE: "+ playerVars[0]+ " WIN: "+ win+" TIME: "+ time/10 + " Satisfaction: "+ playerQED[4]);
         time = 0;

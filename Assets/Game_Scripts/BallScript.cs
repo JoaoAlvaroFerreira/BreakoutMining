@@ -54,6 +54,8 @@ public class BallScript : MonoBehaviour
     }
 
     public int getBallBounces(){
-        return bounces;
+        int a = bounces;
+        bounces = 0;
+        return a;
     }
 }
