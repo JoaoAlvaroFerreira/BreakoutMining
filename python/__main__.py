@@ -6,6 +6,7 @@ from stable_baselines3.ppo import MlpPolicy
 
 from utils.environment import load_environment
 from utils.database import read_dataset, filter_satisfaction
+from utils.evaluation import eval
 
 from game_predictor import GamePredictor
 
@@ -76,5 +77,8 @@ print(multi_output_results)
 
 print("### Single-Output Results")
 print(single_output_results)
+
+print("### Evaluating Models Performance")
+eval(test_dataset, multi_output_results, single_output_results)
 
 print("### Models Finished Testing")

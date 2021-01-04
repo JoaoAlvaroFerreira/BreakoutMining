@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 radius = 10
-min_satisfaction = 16
+min_satisfaction = 14
 
 
 def filter_satisfaction(dataset):
