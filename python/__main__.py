@@ -1,11 +1,11 @@
 from math import ceil, floor
 from shutil import copyfile
-import numpy as np
 
 from stable_baselines3 import PPO
 from stable_baselines3.ppo import MlpPolicy
 
 from utils.environment import load_environment
+from utils.database import read_dataset, filter_satisfaction
 
 from game_predictor import GamePredictor
 
@@ -35,8 +35,11 @@ copyfile('./data.csv', './data_train.csv')
 multi_output = GamePredictor('rf', single_output=False)
 single_output = GamePredictor('rf', single_output=True)
 
-multi_output.train("data_train.csv")
-single_output.train("data_train.csv")
+dataset = read_dataset("data_train.csv")
+filtered_dataset = filter_satisfaction(dataset)
+
+multi_output.train(filtered_dataset)
+single_output.train(filtered_dataset)
 
 print("### Models Finished Training")
 
@@ -62,8 +65,11 @@ test_env.close()
 print("### Testing Simulations Finished")
 
 copyfile('./data.csv', './data_test.csv')
-multi_output_results = multi_output.predict("data_test.csv")
-single_output_results = single_output.predict("data_test.csv")
+
+test_dataset = read_dataset("data_test.csv")
+
+multi_output_results = multi_output.predict(test_dataset)
+single_output_results = single_output.predict(test_dataset)
 
 print("### Multi-Output Results")
 print(multi_output_results)

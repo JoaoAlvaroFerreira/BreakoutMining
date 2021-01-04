@@ -6,8 +6,8 @@ class GamePredictor:
         self.model_name = model_name
         self.single_output = single_output
 
-    def train(self, csv_path):
-        self.model = model_train(self.model_name, csv_path, self.single_output)
+    def train(self, dataset):
+        self.model = model_train(self.model_name, dataset, self.single_output)
 
-    def predict(self, csv_path):
-        return model_predict(self.model_name, self.model, csv_path, self.single_output)
+    def predict(self, dataset):
+        return model_predict(self.model_name, self.model, dataset, self.single_output)

@@ -6,28 +6,28 @@ from game_predictor.svm import svm_train, svm_predict
 from game_predictor.rrforest import forest_train, forest_predict
 
 
-def model_train(model_name, csv_path, single_ouput):
+def model_train(model_name, dataset, single_ouput):
     train_switcher = {
         "knn": knn_train,
         "svm": svm_train,
         "rf": forest_train
     }
 
-    trainer = train_switcher.get(model_name, knn_train)
-    X_train, y_train, X_test, y_test = data_preparation_train(csv_path)
+    trainer = train_switcher.get(model_name, forest_train)
+    X_train, y_train = data_preparation_train(dataset)
 
-    return trainer(X_train, y_train, X_test, y_test, single_ouput)
+    return trainer(X_train, y_train, single_ouput)
 
 
-def model_predict(model_name, model, csv_path, single_ouput):
+def model_predict(model_name, model, dataset, single_ouput):
     predict_switcher = {
         "knn": knn_predict,
         "svm": svm_predict,
         "rf": forest_predict
     }
 
-    predictor = predict_switcher.get(model_name, knn_predict)
-    X_pred = data_preparation_predict(csv_path)
+    predictor = predict_switcher.get(model_name, forest_predict)
+    X_pred = data_preparation_predict(dataset)
 
     predictions = predictor(X_pred, model)
 
