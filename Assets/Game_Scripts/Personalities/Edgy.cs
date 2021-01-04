@@ -70,16 +70,14 @@ public class Edgy : Personality
     }
 
       public override float[] GetVariables(){
-        float[] a = {5, APM, reaction_time, paddle_safety_distance};
+        float[] a = {4, APM, reaction_time, paddle_safety_distance};
         return a;
     }
 
     
     public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win){
-        float content = 0;
+        float content = 1;
         if(win == 1)
-        content++;
-        if(time < 130)
         content++;
         if(bricks < 20)
         content++;
@@ -94,7 +92,7 @@ public class Edgy : Personality
         skillful++;
         if(win == 1)
         skillful++;
-        if(time/paddleDistance > 10)
+        if(time/paddleDistance > 0.1f)
         skillful++;
         if(ballHits *2.5 < ballBounces)
         skillful++;
@@ -103,26 +101,30 @@ public class Edgy : Personality
 
         //I was fully occupied with the game
         float occupied = 0;
-        if(time/paddleDistance < 13)
+        if(paddleDistance/ballHits < 50)
         occupied++;
         if(ballHits *2 < ballBounces)
         occupied++;
-        if(time/ballHits < 3)
+        if(time/ballHits < 4f)
         occupied++;
-        if(ballHits > 8)
+        if(time > 15)
         occupied++;
-        if(ballHits > 15)
+        if(ballBounces > 20)
         occupied++;
+
+
 
         //I thought it was hard
         float hard = 5;
-        if(win == 0)
+        if(win == 1)
         hard--;
-        if(time/ballHits > 3.5)
+        if(time/ballHits > 4)
         hard--;
-        if(bricks > 17)
+        if(time < 5)
         hard--;
-        if(ballHits *3 > ballBounces)
+        if(time < 10)
+        hard--;
+        if(bricks > 25)
         hard--;
 
         //overall enjoyment

@@ -65,60 +65,61 @@ public class Experienced : Personality
     }
 
       public override float[] GetVariables(){
-        float[] a = {2, APM, reaction_time, paddle_safety_distance};
+        float[] a = {3, APM, reaction_time, paddle_safety_distance};
         return a;
     }
 
     
     public override float[] GetGEQ(float paddleDistance, float ballHits, int ballBounces, float time, int bricks, int win){
-        float content = 0;
+        float content = 1;
         if(win == 1)
         content++;
-        if(time > 40 && time < 180)
+        if(time < 140)
         content++;
         if(bricks < 20)
         content++;
         if(ballHits *2 < ballBounces)
         content++;
-        if(bricks < 10)
-        content++;
+
+        
         
         //I felt skilful
         float skillful = 0;
-        if(ballHits < 30)
-        skillful++;
-        if(ballHits < 20)
+        if(ballHits*2 < (30-bricks))
         skillful++;
         if(win == 1)
         skillful++;
         if(ballHits *2.5 < ballBounces)
         skillful++;
-        if(time/paddleDistance > 20)
+        if(ballHits *2 < ballBounces)
         skillful++;
-    
+        if(time/paddleDistance < 0.1f)
+        skillful++;
 
         //I was fully occupied with the game
         float occupied = 0;
-        if(time/paddleDistance < 15)
+        if(time/paddleDistance < 0.1f)
         occupied++;
-        if(time/ballHits < 3)
+        if(time > 15)
         occupied++;
-        if(ballHits > 8)
+        if(time/ballHits < 4f)
         occupied++;
-        if(ballHits *2 < ballBounces)
-        occupied++;
-        if(ballHits *3 < ballBounces)
+        if(paddleDistance/ballHits < 50)
+        skillful++;
+        if(ballHits > 10)
         occupied++;
 
         //I thought it was hard
         float hard = 5;
         if(win == 0)
         hard--;
-        if(time/ballHits > 3)
+        if(time/ballHits > 4)
         hard--;
-        if(bricks > 17)
+        if(bricks > 25)
         hard--;
-        if(bricks > 7)
+        if(time<5)
+        hard--;
+        if(ballHits *3 > ballBounces)
         hard--;
 
         //overall enjoyment
