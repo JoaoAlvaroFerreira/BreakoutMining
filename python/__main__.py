@@ -12,7 +12,7 @@ from utils.evaluation import eval
 from game_predictor import GamePredictor
 
 # Control Variables
-episodes = 7000
+episodes = 15000
 test_ratio = 0.25
 
 train_episodes = ceil(episodes * (1 - test_ratio))
@@ -38,7 +38,7 @@ multi_output = GamePredictor('rf', single_output=False)
 single_output = GamePredictor('rf', single_output=True)
 
 dataset = read_dataset("data_train.csv")
-plot_satisfactions("train", dataset)
+#plot_satisfactions("train", dataset)
 filtered_dataset = filter_satisfaction(dataset)
 
 multi_output.train(filtered_dataset)
@@ -70,7 +70,7 @@ print("### Testing Simulations Finished")
 copyfile('./data.csv', './data_test.csv')
 
 test_dataset = read_dataset("data_test.csv")
-plot_satisfactions("test", test_dataset)
+#plot_satisfactions("test", test_dataset)
 
 multi_output_results = multi_output.predict(test_dataset)
 single_output_results = single_output.predict(test_dataset)
