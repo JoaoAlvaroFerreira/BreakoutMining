@@ -45,7 +45,7 @@ def eval(rl_dataset, mo_pred, so_pred):
 
     print("Single-Ouput Evaluation")
     print(
-        f"Global RMSE: {sqrt(mean_squared_error(filtered_rl_pred, filtered_mo_pred))}")
+        f"Global RMSE: {sqrt(mean_squared_error(filtered_rl_pred, filtered_so_pred))}")
     print(
         f"Brick Height RMSE: {sqrt(mean_squared_error(filtered_rl_pred['brick height_rl'], filtered_so_pred['brick height_single']))}")
     print(
