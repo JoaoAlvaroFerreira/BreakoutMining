@@ -38,6 +38,7 @@ def model_predict(model_name, model, dataset, single_ouput):
     if single_ouput:
         model_type = "single_output"
 
-    dataset.to_csv(f"{model_type}_{model_name}_results.csv", index=False)
+    dataset.to_csv(f"{model_type}_{model_name}_results.csv",
+                   sep=";", index=False)
 
     return dataset

@@ -10,20 +10,22 @@ from utils.evaluation import eval
 # copyfile('./data.csv', './data_train.csv')
 # copyfile('./data.csv', './data_test.csv')
 
-mp = GamePredictor("rf", single_output=False)
-gp = GamePredictor("rf", single_output=True)
+#mp = GamePredictor("rf", single_output=False)
+#gp = GamePredictor("rf", single_output=True)
 
 dataset = read_dataset("data_train.csv")
-plot_satisfactions("train", dataset)
+#plot_satisfactions("train", dataset)
 # dataset = filter_satisfaction(dataset)
 
-mp.train(dataset)
-gp.train(dataset)
+# mp.train(dataset)
+# gp.train(dataset)
 
 test_dataset = read_dataset("data_test.csv")
-plot_satisfactions("test", test_dataset)
+#plot_satisfactions("test", test_dataset)
 
-mr = mp.predict(test_dataset)
-gr = gp.predict(test_dataset)
+#mr = mp.predict(test_dataset)
+#gr = gp.predict(test_dataset)
+mr = read_dataset("multi_output_rf_results.csv")
+gr = read_dataset("single_output_rf_results.csv")
 
 eval(test_dataset, mr, gr)
